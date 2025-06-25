@@ -1217,8 +1217,6 @@ salwinbugs2 <- readRDS(file = file.path("..", "results", "salwinbugs2.rds"))
 which((salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "kappa"), 6] > 1.1) | (salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "kappa"), 7] < 100))
 which((salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "sd.M.Muni"), 6] > 1.1) | (salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "sd.M.Muni"), 7] < 100))
 which((salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "theta"), 6] > 1.1) | (salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "theta"), 7] < 100))
-which((salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "rho"), 6] > 1.1) | (salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "rho"), 7] < 100))
-which((salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "M.Muni"), 6] > 1.1) | (salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], "M.Muni"), 7] < 100))
 
 MCMCsummary(object = salnimble2, params = "kappa",
             # exact = TRUE,
@@ -1357,11 +1355,8 @@ salwinbugs3 <- readRDS(file = file.path("..", "results", "salwinbugs3.rds"))
 which((salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "kappa"), 6] > 1.1) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "kappa"), 7] < 100))
 which((salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "sd.M.Muni"), 6] > 1.1) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "sd.M.Muni"), 7] < 100))
 which((salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "theta"), 6] > 1.1) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "theta"), 7] < 100))
-which((salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "rho"), 6] > 1.1) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "rho"), 7] < 100))
-which((salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "M.Muni"), 6] > 1.1) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "M.Muni"), 7] < 100))
 which((salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "sd.M.Resp"), 6] > 1.1) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "sd.M.Resp"), 7] < 100))
 which((salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "psi"), 6] > 1.1) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "psi"), 7] < 100))
-which((salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "M.Resp"), 6] > 1.1) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], "M.Resp"), 7] < 100))
 
 MCMCsummary(object = salnimble3, params = "kappa",
             # exact = TRUE,
@@ -1384,6 +1379,13 @@ MCMCtrace(object = salnimble3,
           Rhat = TRUE,
           n.eff = TRUE,
           params = "sd.M.Muni")
+
+MCMCtrace(object = salnimble3,
+          pdf = FALSE, # no export to PDF
+          ind = TRUE, # separate density lines per chain
+          Rhat = TRUE,
+          n.eff = TRUE,
+          params = "sd.M.Resp")
 
 test <- "theta"
 
@@ -1710,9 +1712,6 @@ Corr.quantileU.orden <- Corr.quantileU.orden[orden, orden]
 # replace on line 446 +0.35 y +0.15
 # trace(corrplot, edit = TRUE)
 
-Corr.mean.orden
-Corr.quantileL.orden
-Corr.quantileU.orden
 Relevance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden < 0), ncol = NVars, nrow = NVars, byrow = FALSE)
 colnames(Relevance) <- rownames(Relevance) <-  colnames(Corr.mean.orden)
 Relevance <- (Relevance - 1) * (-1)
@@ -1794,9 +1793,6 @@ colnames(Corr.quantileU) <- labels
 Corr.quantileU.orden <- as.matrix(Corr.quantileU)
 Corr.quantileU.orden <- Corr.quantileU.orden[orden, orden]
 
-Corr.mean.orden
-Corr.quantileL.orden
-Corr.quantileU.orden
 Relevance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden < 0), ncol = NVars, nrow = NVars, byrow = FALSE)
 colnames(Relevance) <- rownames(Relevance) <-  colnames(Corr.mean.orden)
 Relevance <- (Relevance - 1) * (-1)
@@ -1857,7 +1853,7 @@ levels(carto_muni@data$ACP2) <- c("Worse MH", " ", "  ", "   ", "    ",
 
 grid.arrange(spplot(carto_muni,
                     c("ACP1"),
-                    main = expression("(A)                                                                          "),
+                    main = expression("(A)          "),
                     col.regions = colorRampPalette(brewer.pal(7,'RdYlBu'))(15),
                     cuts = 14,
                     par.settings = list(axis.line = list(col = 'transparent')),
@@ -1866,7 +1862,7 @@ grid.arrange(spplot(carto_muni,
                     lwd = 0.025),
              spplot(carto_muni,
                     c("ACP2"),
-                    main = expression("(B)                                                                          "),
+                    main = expression("(B)          "),
                     col.regions = colorRampPalette(brewer.pal(7,'Blues'))(15),
                     cuts = 14,
                     par.settings = list(axis.line = list(col = 'transparent')),
@@ -2002,7 +1998,7 @@ SurveyMapping.prlevels <- function(salwinbugs) {
 # # This may take a minute
 # prlevels <- SurveyMapping.prlevels(salwinbugs = salwinbugs3)
 
-### Validation ###
+# Validation
 
 # Sample size of each municipality, sex and age group:
 sample <- array(dim = c(NMuni, NSex, NAges))
