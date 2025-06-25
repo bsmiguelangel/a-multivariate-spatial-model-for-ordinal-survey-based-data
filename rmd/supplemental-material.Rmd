@@ -1878,9 +1878,190 @@ grid.arrange(spplot(carto_muni,
 rm(list = c("thetasim", "stepsim"))
 ```
 
-### Model assessment
+### Table 2: Model assessment
 
 ```{r}
+# Model-Indep
+# SurveyMapping.prlevels: 
+# - computes the n.sims simulated probabilities for each respondent
+
+SurveyMapping.prlevels <- function(salwinbugs) {
+  
+  n.sims <- salwinbugs$n.sims
+  n.chains <- salwinbugs$n.chains
+  p.gamma <- array(dim = c(n.sims, NResp, NVars, NCats - 1))
+  prlevels <- array(dim = c(n.sims, NResp, NVars, NCats))
+  for (sim in 1:n.sims) {
+    for (Resp in 1:NResp) {
+      for (Var in 1:NVars) {
+        for (Cat in 1:(NCats - 1)) {
+          p.gamma[sim, Resp, Var, Cat] <- 
+            ilogit(salwinbugs$sims.list$kappa[sim, sex[Resp], age[Resp], Cat, Var] + 
+                     salwinbugs$sims.list$sd.theta[sim, Var] * salwinbugs$sims.list$theta[sim, muni[Resp], Var])
+        }
+        
+        prlevels[sim, Resp, Var, 1] <- p.gamma[sim, Resp, Var, 1]
+        prlevels[sim, Resp, Var, NCats] <- 1 - p.gamma[sim, Resp, Var, NCats - 1]
+        
+        for (Cat in 2:(NCats - 1)) {
+          prlevels[sim, Resp, Var, Cat] <- 
+            p.gamma[sim, Resp, Var, Cat] - p.gamma[sim, Resp, Var, Cat-1]
+        }
+      }
+    }
+    
+    if (sim %in% c(1, seq(n.sims/n.chains, n.sims, n.sims/n.chains))) {
+      cat(sim, "of", n.sims, "simulations", "\n")
+    } else {}
+  }
+  
+  return(prlevels)
+}
+
+# # This may take a minute
+# prlevels <- SurveyMapping.prlevels(salwinbugs = salwinbugs1)
+
+# Model-Corr
+# SurveyMapping.prlevels: 
+# - computes the n.sims simulated probabilities for each respondent
+
+SurveyMapping.prlevels <- function(salwinbugs) {
+  
+  n.sims <- salwinbugs$n.sims
+  n.chains <- salwinbugs$n.chains
+  p.gamma <- array(dim = c(n.sims, NResp, NVars, NCats - 1))
+  prlevels <- array(dim = c(n.sims, NResp, NVars, NCats))
+  for (sim in 1:n.sims) {
+    for (Resp in 1:NResp) {
+      for (Var in 1:NVars) {
+        for (Cat in 1:(NCats - 1)) {
+          p.gamma[sim, Resp, Var, Cat] <- 
+            ilogit(salwinbugs$sims.list$kappa[sim, sex[Resp], age[Resp], Cat, Var] + 
+                     salwinbugs$sims.list$theta[sim, muni[Resp], Var])
+        }
+        
+        prlevels[sim, Resp, Var, 1] <- p.gamma[sim, Resp, Var, 1]
+        prlevels[sim, Resp, Var, NCats] <- 1 - p.gamma[sim, Resp, Var, NCats - 1]
+        
+        for (Cat in 2:(NCats - 1)) {
+          prlevels[sim, Resp, Var, Cat] <- 
+            p.gamma[sim, Resp, Var, Cat] - p.gamma[sim, Resp, Var, Cat-1]
+        }
+      }
+    }
+    
+    if (sim %in% c(1, seq(n.sims/n.chains, n.sims, n.sims/n.chains))) {
+      cat(sim, "of", n.sims, "simulations", "\n")
+    } else {}
+  }
+  
+  return(prlevels)
+}
+
+# # This may take a minute
+# prlevels <- SurveyMapping.prlevels(salwinbugs = salwinbugs2)
+
+# Model-Corr&IRE
+# SurveyMapping.prlevels: 
+# - computes the n.sims simulated probabilities for each respondent
+
+SurveyMapping.prlevels <- function(salwinbugs) {
+  
+  n.sims <- salwinbugs$n.sims
+  n.chains <- salwinbugs$n.chains
+  p.gamma <- array(dim = c(n.sims, NResp, NVars, NCats - 1))
+  prlevels <- array(dim = c(n.sims, NResp, NVars, NCats))
+  for (sim in 1:n.sims) {
+    for (Resp in 1:NResp) {
+      for (Var in 1:NVars) {
+        for (Cat in 1:(NCats - 1)) {
+          p.gamma[sim, Resp, Var, Cat] <- 
+            ilogit(salwinbugs$sims.list$kappa[sim, sex[Resp], age[Resp], Cat, Var] + 
+                     salwinbugs$sims.list$theta[sim, muni[Resp], Var] + 
+                     salwinbugs$sims.list$psi[sim, Resp, Var])
+        }
+        
+        prlevels[sim, Resp, Var, 1] <- p.gamma[sim, Resp, Var, 1]
+        prlevels[sim, Resp, Var, NCats] <- 1 - p.gamma[sim, Resp, Var, NCats - 1]
+        
+        for (Cat in 2:(NCats - 1)) {
+          prlevels[sim, Resp, Var, Cat] <- 
+            p.gamma[sim, Resp, Var, Cat] - p.gamma[sim, Resp, Var, Cat-1]
+        }
+      }
+    }
+    
+    if (sim %in% c(1, seq(n.sims/n.chains, n.sims, n.sims/n.chains))) {
+      cat(sim, "of", n.sims, "simulations", "\n")
+    } else {}
+  }
+  
+  return(prlevels)
+}
+
+# # This may take a minute
+# prlevels <- SurveyMapping.prlevels(salwinbugs = salwinbugs3)
+
+### Validation ###
+
+# Sample size of each municipality, sex and age group:
+sample <- array(dim = c(NMuni, NSex, NAges))
+for (Muni in 1:NMuni) {
+  for (SexGroup in 1:NSex) {
+    for (AgeGroup in 1:NAges) {
+      sample[Muni, SexGroup, AgeGroup] <- sum(muni == Muni & sex == SexGroup & age == AgeGroup)
+    }
+  }
+}
+
+SurveyMapping.Validation <- function(prlevels, Muni) {
+  
+  NSamp <- sum(sample[Muni, , ])
+  index <- which(muni == Muni)
+  realvalue <- matrix(nrow = NVars, ncol = NCats)
+  predictive <- array(dim = c(n.sims, NSamp, NVars))
+  predictive.muni <- array(dim = c(n.sims, NVars, NCats))
+  for (sim in 1:n.sims) {
+    for (Var in 1:NVars) {
+      for (Resp in 1:NSamp) {
+        predictive[sim, Resp, Var] <- which(
+          rmultinom(n = 1,
+                    size = 1, 
+                    prob = prlevels[sim, index[Resp], Var, ]) == 1)
+      }
+      predictive.muni[sim, Var, ] <- table(factor(predictive[sim, , Var], levels = 1:NCats))/NSamp * 100
+    }
+    
+    if (sim %in% c(1, seq(n.sims/n.chains, n.sims, n.sims/n.chains))) {
+      cat(sim, "of", n.sims, "simulations", "\n")
+    } else {}
+  }
+  
+  posteriormean <- round(apply(predictive.muni, 2:3, mean), 2)
+  PInterval0.025 <- round(apply(predictive.muni, 2:3, quantile, prob = 0.025), 2)
+  PInterval0.975 <- round(apply(predictive.muni, 2:3, quantile, prob = 0.975), 2)
+  for (Var in 1:NVars) {
+    realvalue[Var, ] <- round(table(factor(y[muni == Muni, Var], levels = 1:NCats))/NSamp * 100, 2)
+  }
+  return(list("mean" = posteriormean,
+              "PI" = list("lower" = PInterval0.025, "upper" = PInterval0.975),
+              "real" = realvalue))
+  return(predictive.muni)
+}
+
+# Four municipalities with the largest population in the RV
+Munis <- order(apply(sample, 1, sum), decreasing = TRUE)[1:6]
+
+# validation <- list()
+# for (Muni in 1:length(Munis)) {
+#   set.seed(9747783)
+#   validation[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels, Muni = Munis[Muni])
+# }
+
+# saveRDS(validation, file = file.path("results", "multi-2022-nimble-MH-indep-assessment.rds"))
+# saveRDS(validation, file = file.path("results", "multi-2022-nimble-MH-corr-assessment.rds"))
+# saveRDS(validation, file = file.path("results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
+
 indep <- readRDS(file = file.path("..", "results", "multi-2022-nimble-MH-indep-assessment.rds"))
 corr <- readRDS(file = file.path("..", "results", "multi-2022-nimble-MH-corr-assessment.rds"))
 corrire <- readRDS(file = file.path("..", "results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
@@ -2169,11 +2350,105 @@ modelWAIC <- nimbleModel(code = modelCode,
                                       sd.theta = runif(NVars)), 
                          calculate = FALSE)
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
-samples <- do.call(rbind, salnimble)           # single matrix of samples
+samples <- do.call(rbind, salnimble1)           # single matrix of samples
 waic <- calculateWAIC(samples, modelWAIC)
 waic
 
 # WAIC for Model-Corr
+
+# Model code
+
+modelCode <- nimbleCode(
+  {
+    for(Var in 1:NVars) {
+      # Likelihood
+      for (Resp in 1:NResp) {
+        y[Resp, Var] ~ dcat(prlevels[Resp, Var, 1:NCats])
+        
+        # Definition of the probabilities of each category as a function of the
+        # cumulative probabilities
+        prlevels[Resp, Var, 1] <- p.gamma[Resp, Var, 1]
+        for (Cat in 2:(NCats-1)) {
+          prlevels[Resp, Var, Cat] <- p.gamma[Resp, Var, Cat] - p.gamma[Resp, Var, Cat-1]
+        }
+        prlevels[Resp, Var, NCats] <- 1 - p.gamma[Resp, Var, NCats-1]
+        
+        # Linear predictor
+        for (Cat in 1:(NCats-1)) {
+          logit(p.gamma[Resp, Var, Cat]) <- kappa[sex[Resp], age[Resp], Cat, Var] + 
+            theta[muni[Resp], Var]
+        }
+      }
+    }
+    
+    # Prior distributions
+    
+    # kappa[1:NSex, 1:NAges, 1:(NCats-1), 1:NVars] cut points
+    # Monotonic transformation
+    for (Var in 1:NVars) {
+      for (SexGroup in 1:NSex) {
+        for (AgeGroup in 1:NAges) {
+          for (Cat in 1:(NCats-1)) {
+            kappa[SexGroup, AgeGroup, Cat, Var] <- logit(sum(delta[SexGroup, AgeGroup, Var, 1:Cat]))
+          }
+          # delta[1:NSex, 1:NAges, 1:NVars, 1:NCats] Dirichlet prior
+          delta[SexGroup, AgeGroup, Var, 1:NCats] ~ ddirch(ones[1:NCats])
+        }
+      }
+    }
+    
+    # theta[1:NMuni, 1:NVars] spatial random effects
+    for (Var in 1:NVars) {
+      for (Muni in 1:NMuni) {
+        theta[Muni, Var] <- inprod(sub.Muni[Muni, ], M.Muni[, Var])
+      }
+      # sub.Muni[1:NMuni, 1:NVars] underlying spatial REs
+      # LCAR distribution
+      sub.Muni[1:NMuni, Var] ~ dcar_leroux(rho = rho[Var],
+                                           sd.theta = 1,
+                                           Lambda = Lambda[1:NMuni],
+                                           from.to = from.to[1:NDist, 1:2])
+    }
+    
+    # Hyperparameter of the spatial random effects
+    for (Var in 1:NVars) {
+      rho[Var] ~ dunif(0, 1)
+    }
+    
+    # M.Resp[1:NVars, 1:NVars] and M.Muni[1:NVars, 1:NVars] M-matrices
+    for (Var1 in 1:NVars) {
+      for (Var2 in 1:NVars) {
+        M.Muni[Var1, Var2] ~ dnorm(0, tau.M.Muni)
+      }
+    }
+    
+    # Prior for precisions of M.Muni
+    tau.M.Muni <- pow(sd.M.Muni, -2)
+    sd.M.Muni ~ dhalfflat()
+    
+    # Stochastic restrictions
+    # Required vectors
+    for (Var in 1:NVars) {
+      for (Resp in 1:NResp) {
+        sub.Muni.Resp[Resp, Var] <- sub.Muni[muni[Resp], Var]
+      }
+      
+      # Zero-mean constraint for sub.Muni.Resp
+      zero.sub.Muni.resp[Var] ~ dnorm(mean.sub.Munis.resp[Var], 10000)
+      mean.sub.Munis.resp[Var] <- mean(sub.Muni.Resp[1:NResp, Var])
+    }
+    
+  }
+)
+
+# Data to be loaded
+
+modelData <- list(y = as.matrix(y), zero.sub.Muni.resp = rep(0, NVars))
+
+modelConstants <- list(NResp = NResp, NCats = NCats, NVars = NVars, sex = sex, 
+                       age = age, muni = muni, NSex = NSex, NAges = NAges, 
+                       NMuni = NMuni, ones = ones, NDist = NDist, Lambda = Lambda, 
+                       from.to = from.to)
 
 # Let’s create the Nimble model, creates the nodes
 modelWAIC <- nimbleModel(code = modelCode, 
@@ -2187,11 +2462,118 @@ modelWAIC <- nimbleModel(code = modelCode,
                                       sd.M.Muni = runif(1, min = 0.2, max = 0.8)), 
                          calculate = FALSE)
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
-samples <- do.call(rbind, salnimble)           # single matrix of samples
+samples <- do.call(rbind, salnimble2)           # single matrix of samples
 waic <- calculateWAIC(samples, modelWAIC)
 waic
 
 # WAIC for Model-Corr&IRE
+
+# Model code
+
+modelCode <- nimbleCode(
+  {
+    for(Var in 1:NVars) {
+      # Likelihood
+      for (Resp in 1:NResp) {
+        y[Resp, Var] ~ dcat(prlevels[Resp, Var, 1:NCats])
+        
+        # Definition of the probabilities of each category as a function of the
+        # cumulative probabilities
+        prlevels[Resp, Var, 1] <- p.gamma[Resp, Var, 1]
+        for (Cat in 2:(NCats-1)) {
+          prlevels[Resp, Var, Cat] <- p.gamma[Resp, Var, Cat] - p.gamma[Resp, Var, Cat-1]
+        }
+        prlevels[Resp, Var, NCats] <- 1 - p.gamma[Resp, Var, NCats-1]
+        
+        # Linear predictor
+        for (Cat in 1:(NCats-1)) {
+          logit(p.gamma[Resp, Var, Cat]) <- kappa[sex[Resp], age[Resp], Cat, Var] + 
+            theta[muni[Resp], Var] + psi[Resp, Var]
+        }
+      }
+    }
+    
+    # Prior distributions
+    
+    # kappa[1:NSex, 1:NAges, 1:(NCats-1), 1:NVars] cut points
+    # Monotonic transformation
+    for (Var in 1:NVars) {
+      for (SexGroup in 1:NSex) {
+        for (AgeGroup in 1:NAges) {
+          for (Cat in 1:(NCats-1)) {
+            kappa[SexGroup, AgeGroup, Cat, Var] <- logit(sum(delta[SexGroup, AgeGroup, Var, 1:Cat]))
+          }
+          # delta[1:NSex, 1:NAges, 1:NVars, 1:NCats] Dirichlet prior
+          delta[SexGroup, AgeGroup, Var, 1:NCats] ~ ddirch(ones[1:NCats])
+        }
+      }
+    }
+    
+    # psi[1:NResp, 1:NVars] individual random effects
+    for(Var in 1:NVars) {
+      for (Resp in 1:NResp) {
+        psi[Resp, Var] <- inprod(sub.Resp[Resp, ], M.Resp[, Var])
+        # sub.Resp[1:NResp, 1:NVars] underlying individual REs
+        sub.Resp[Resp, Var] ~ dnorm(0, 1)
+      }
+    }
+    
+    # theta[1:NMuni, 1:NVars] spatial random effects
+    for (Var in 1:NVars) {
+      for (Muni in 1:NMuni) {
+        theta[Muni, Var] <- inprod(sub.Muni[Muni, ], M.Muni[, Var])
+      }
+      # sub.Muni[1:NMuni, 1:NVars] underlying spatial REs
+      # LCAR distribution
+      sub.Muni[1:NMuni, Var] ~ dcar_leroux(rho = rho[Var],
+                                           sd.theta = 1,
+                                           Lambda = Lambda[1:NMuni],
+                                           from.to = from.to[1:NDist, 1:2])
+    }
+    
+    # Hyperparameter of the spatial random effects
+    for (Var in 1:NVars) {
+      rho[Var] ~ dunif(0, 1)
+    }
+    
+    # M.Resp[1:NVars, 1:NVars] and M.Muni[1:NVars, 1:NVars] M-matrices
+    for (Var1 in 1:NVars) {
+      for (Var2 in 1:NVars) {
+        M.Resp[Var1, Var2] ~ dnorm(0, tau.M.Resp)
+        M.Muni[Var1, Var2] ~ dnorm(0, tau.M.Muni)
+      }
+    }
+    
+    # Prior for precisions of M.Resp and M.Muni
+    tau.M.Resp <- pow(sd.M.Resp, -2)
+    sd.M.Resp ~ dhalfflat()
+    
+    tau.M.Muni <- pow(sd.M.Muni, -2)
+    sd.M.Muni ~ dhalfflat()
+    
+    # Stochastic restrictions
+    # Required vectors
+    for (Var in 1:NVars) {
+      for (Resp in 1:NResp) {
+        sub.Muni.Resp[Resp, Var] <- sub.Muni[muni[Resp], Var]
+      }
+      
+      # Zero-mean constraint for sub.Muni.Resp
+      zero.sub.Muni.resp[Var] ~ dnorm(mean.sub.Munis.resp[Var], 10000)
+      mean.sub.Munis.resp[Var] <- mean(sub.Muni.Resp[1:NResp, Var])
+    }
+    
+  }
+)
+
+# Data to be loaded
+
+modelData <- list(y = as.matrix(y), zero.sub.Muni.resp = rep(0, NVars))
+
+modelConstants <- list(NResp = NResp, NCats = NCats, NVars = NVars, sex = sex, 
+                       age = age, muni = muni, NSex = NSex, NAges = NAges, 
+                       NMuni = NMuni, ones = ones, NDist = NDist, Lambda = Lambda, 
+                       from.to = from.to)
 
 # Let’s create the Nimble model, creates the nodes
 modelWAIC <- nimbleModel(code = modelCode, 
@@ -2208,7 +2590,7 @@ modelWAIC <- nimbleModel(code = modelCode,
                                       sd.M.Muni = runif(1, min = 0.2, max = 0.8)), 
                          calculate = FALSE)
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
-samples <- do.call(rbind, salnimble)           # single matrix of samples
+samples <- do.call(rbind, salnimble3)           # single matrix of samples
 waic <- calculateWAIC(samples, modelWAIC)
 waic
 ```
