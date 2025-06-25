@@ -1134,7 +1134,7 @@ MCMCtrace(object = salnimble1,
           n.eff = TRUE,
           exact = TRUE,
           ISB = FALSE,
-          params = rownames(salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), ])[(salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), 6] > 1.03) | (salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), 7] < 200)])
+          params = rownames(salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), ])[(salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), 6] > 1.05) | (salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), 7] < 200)])
 ```
 
 ### Convergence assessment for Model-Corr
@@ -1244,7 +1244,7 @@ MCMCtrace(object = salnimble2,
           n.eff = TRUE,
           exact = TRUE,
           ISB = FALSE,
-          params = rownames(salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), ])[(salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), 6] > 1.03) | (salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), 7] < 200)])
+          params = rownames(salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), ])[(salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), 6] > 1.05) | (salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), 7] < 200)])
 ```
 
 ### Convergence assessment for Model-Corr&IRE
@@ -1407,66 +1407,66 @@ MCMCtrace(object = salnimble3,
           n.eff = TRUE,
           exact = TRUE,
           ISB = FALSE,
-          params = rownames(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), ])[(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 6] > 1.03) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 7] < 200)])
+          params = rownames(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), ])[(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 6] > 1.05) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 7] < 200)])
 ```
 
 ### Figure 1: Maps of the RV - theta
 
 ```{r}
-# Cartography of the Region of Valencia
-load(file.path("..", "data", "CartoCV.Rdata"))
-
-n.sims <- salwinbugs3$n.sims
-NMods <- 3
-thetasim <- array(dim = c(n.sims, NMuni, NVars, NMods))
-thetasim[, , , 1] <- salwinbugs1$sims.list$theta
-thetasim[, , , 2] <- salwinbugs2$sims.list$theta
-thetasim[, , , 3] <- salwinbugs3$sims.list$theta
-
-selection <- 1:4
-NSel <- length(selection)
-thetasim <- thetasim[, , selection, ]
-
-# Fiveteen equal-probability intervals
-breaks <- c(min(apply(thetasim, 2:4, mean)) - 0.001, quantile(apply(thetasim, 2:4, mean), probs = seq(1/15, 14/15, length.out = 14)), max(apply(thetasim, 2:4, mean)))
-breaks <- c(-2.20, -0.5, -0.35, -0.25, -0.20, -0.15, -0.10, -0.05, 
-            0.05, 0.10, 0.15, 0.20, 0.25, 0.35, 0.5, 2.20)
-
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
-for (Mod in 1:NMods) {
-  for (Sel in 1:NSel) {
-    carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]] <- cut(apply(thetasim[, , Sel, Mod], 2, mean), breaks = breaks, include.lowest = FALSE, right = TRUE)
-    
-    levels(carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]]) <- gsub("<=", "\u2264", c("<= -0.50", "(-0.50, -0.35]", "(-0.35, -0.25]", "(-0.25, -0.20]", 
-                                                                                                                           "(-0.20, -0.15]", "(-0.15, -0.10]", "(-0.10, -0.05]", "(-0.05, 0.05]", 
-                                                                                                                           "(0.05, 0.10]", "(0.10, 0.15]", "(0.15, 0.20]", "(0.20, 0.25]",
-                                                                                                                           "(0.25, 0.35]", "(0.35, 0.50]", "> 0.50"))
-  }
-}
-
-mod_labels <- c("CorrandIRE", "Corr", "Indep")
-all_labels <- matrix(nrow = NSel, ncol = NMods)
-for (Sel in 1:NSel) {
-  for (Mod in 1:NMods) {
-    all_labels[Sel, Mod] <- paste0(labels[selection[Sel]], ".", mod_labels[Mod])
-  }
-}
-all_labels <- as.character(all_labels)
-
-spplot(carto_muni,
-       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
-         colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
-         colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
-       names.attr = all_labels,
-       col.regions = colorRampPalette(brewer.pal(7,'BrBG'))(15),
-       cuts = 14,
-       par.settings = list(layout.widths = list(left.padding = 0, right.padding = 0),
-                           layout.heights = list(top.padding = 0, bottom.padding = 0),
-                           axis.line = list(col = 'transparent')),
-       strip = strip.custom(par.strip.text = list(cex = 0.95)),
-       col = "black",
-       lwd = 0.025,
-       layout = c(NSel, NMods))
+# # Cartography of the Region of Valencia
+# load(file.path("..", "data", "CartoCV.Rdata"))
+# 
+# n.sims <- salwinbugs3$n.sims
+# NMods <- 3
+# thetasim <- array(dim = c(n.sims, NMuni, NVars, NMods))
+# thetasim[, , , 1] <- salwinbugs1$sims.list$theta
+# thetasim[, , , 2] <- salwinbugs2$sims.list$theta
+# thetasim[, , , 3] <- salwinbugs3$sims.list$theta
+# 
+# selection <- 1:4
+# NSel <- length(selection)
+# thetasim <- thetasim[, , selection, ]
+# 
+# # Fiveteen equal-probability intervals
+# breaks <- c(min(apply(thetasim, 2:4, mean)) - 0.001, quantile(apply(thetasim, 2:4, mean), probs = seq(1/15, 14/15, length.out = 14)), max(apply(thetasim, 2:4, mean)))
+# breaks <- c(-2.20, -0.5, -0.35, -0.25, -0.20, -0.15, -0.10, -0.05, 
+#             0.05, 0.10, 0.15, 0.20, 0.25, 0.35, 0.5, 2.20)
+# 
+# mod_labels <- c("Indep", "Corr", "CorrandIRE")
+# for (Mod in 1:NMods) {
+#   for (Sel in 1:NSel) {
+#     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]] <- cut(apply(thetasim[, , Sel, Mod], 2, mean), breaks = breaks, include.lowest = FALSE, right = TRUE)
+#     
+#     levels(carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]]) <- gsub("<=", "\u2264", c("<= -0.50", "(-0.50, -0.35]", "(-0.35, -0.25]", "(-0.25, -0.20]", 
+#                                                                                                                            "(-0.20, -0.15]", "(-0.15, -0.10]", "(-0.10, -0.05]", "(-0.05, 0.05]", 
+#                                                                                                                            "(0.05, 0.10]", "(0.10, 0.15]", "(0.15, 0.20]", "(0.20, 0.25]",
+#                                                                                                                            "(0.25, 0.35]", "(0.35, 0.50]", "> 0.50"))
+#   }
+# }
+# 
+# mod_labels <- c("CorrandIRE", "Corr", "Indep")
+# all_labels <- matrix(nrow = NSel, ncol = NMods)
+# for (Sel in 1:NSel) {
+#   for (Mod in 1:NMods) {
+#     all_labels[Sel, Mod] <- paste0(labels[selection[Sel]], ".", mod_labels[Mod])
+#   }
+# }
+# all_labels <- as.character(all_labels)
+# 
+# spplot(carto_muni,
+#        c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+#          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
+#          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
+#        names.attr = all_labels,
+#        col.regions = colorRampPalette(brewer.pal(7,'BrBG'))(15),
+#        cuts = 14,
+#        par.settings = list(layout.widths = list(left.padding = 0, right.padding = 0),
+#                            layout.heights = list(top.padding = 0, bottom.padding = 0),
+#                            axis.line = list(col = 'transparent')),
+#        strip = strip.custom(par.strip.text = list(cex = 0.95)),
+#        col = "black",
+#        lwd = 0.025,
+#        layout = c(NSel, NMods))
 
 # Cartography of the Region of Valencia
 load(file.path("..", "data", "CartoCV.Rdata"))
@@ -1526,64 +1526,64 @@ spplot(carto_muni,
 ### Figure 2: Maps of the RV - P(theta < 0 | y)
 
 ```{r}
-# Cartography of the Region of Valencia
-load(file.path("..", "data", "CartoCV.Rdata"))
-
-NMods <- 3
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
-thetasim <- array(dim = c(n.sims, NMuni, NVars, NMods))
-thetasim[, , , 1] <- salwinbugs1$sims.list$theta
-thetasim[, , , 2] <- salwinbugs2$sims.list$theta
-thetasim[, , , 3] <- salwinbugs3$sims.list$theta
-
-# Checking when theta is LESS than zero
-stepsim <- array(dim = c(n.sims, NMuni, NVars, NMods))
-for (Mod in 1:NMods) {
-  for (Var in 1:NVars) {
-    for (sim in 1:n.sims) {
-      for (Muni in 1:NMuni) {
-        stepsim[sim, Muni, Var, Mod] <- ifelse(thetasim[sim, Muni, Var, Mod] < 0, 1, 0)
-      }
-    }
-  }
-}
-
-selection <- 1:4
-NSel <- length(selection)
-stepsim <- stepsim[, , selection, ]
-
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
-for (Mod in 1:NMods) {
-  for (Sel in 1:NSel) {
-    carto_muni@data[[paste0(colnames(y)[selection[Sel]], "probmean", mod_labels[Mod])]] <- apply(stepsim[, , Sel, Mod], 2, mean)
-  }
-}
-
-kk <- unlist(carto_muni@data[, startsWith(colnames(carto_muni@data), "P8_")])
-
-limit <- max(kk) + 0.01
-
-mod_labels <- c("CorrandIRE", "Corr", "Indep")
-all_labels <- matrix(nrow = NSel, ncol = NMods)
-for (Sel in 1:NSel) {
-  for (Mod in 1:NMods) {
-    all_labels[Sel, Mod] <- paste0(labels[selection[Sel]], ".", mod_labels[Mod])
-  }
-}
-all_labels <- as.character(all_labels)
-
-spplot(carto_muni,
-       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
-         colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
-         colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
-       names.attr = all_labels,
-       col.regions = colorRampPalette(brewer.pal(7,'RdYlGn'))(15)[15:1],
-       par.settings = list(axis.line = list(col = 'transparent')),
-       strip = strip.custom(par.strip.text = list(cex = 0.95)),
-       col = "black",
-       at = seq(0, limit, length.out = 16),
-       lwd = 0.025,
-       layout = c(NSel, NMods))
+# # Cartography of the Region of Valencia
+# load(file.path("..", "data", "CartoCV.Rdata"))
+# 
+# NMods <- 3
+# mod_labels <- c("Indep", "Corr", "CorrandIRE")
+# thetasim <- array(dim = c(n.sims, NMuni, NVars, NMods))
+# thetasim[, , , 1] <- salwinbugs1$sims.list$theta
+# thetasim[, , , 2] <- salwinbugs2$sims.list$theta
+# thetasim[, , , 3] <- salwinbugs3$sims.list$theta
+# 
+# # Checking when theta is LESS than zero
+# stepsim <- array(dim = c(n.sims, NMuni, NVars, NMods))
+# for (Mod in 1:NMods) {
+#   for (Var in 1:NVars) {
+#     for (sim in 1:n.sims) {
+#       for (Muni in 1:NMuni) {
+#         stepsim[sim, Muni, Var, Mod] <- ifelse(thetasim[sim, Muni, Var, Mod] < 0, 1, 0)
+#       }
+#     }
+#   }
+# }
+# 
+# selection <- 1:4
+# NSel <- length(selection)
+# stepsim <- stepsim[, , selection, ]
+# 
+# mod_labels <- c("Indep", "Corr", "CorrandIRE")
+# for (Mod in 1:NMods) {
+#   for (Sel in 1:NSel) {
+#     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "probmean", mod_labels[Mod])]] <- apply(stepsim[, , Sel, Mod], 2, mean)
+#   }
+# }
+# 
+# kk <- unlist(carto_muni@data[, startsWith(colnames(carto_muni@data), "P8_")])
+# 
+# limit <- max(kk) + 0.01
+# 
+# mod_labels <- c("CorrandIRE", "Corr", "Indep")
+# all_labels <- matrix(nrow = NSel, ncol = NMods)
+# for (Sel in 1:NSel) {
+#   for (Mod in 1:NMods) {
+#     all_labels[Sel, Mod] <- paste0(labels[selection[Sel]], ".", mod_labels[Mod])
+#   }
+# }
+# all_labels <- as.character(all_labels)
+# 
+# spplot(carto_muni,
+#        c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+#          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
+#          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
+#        names.attr = all_labels,
+#        col.regions = colorRampPalette(brewer.pal(7,'RdYlGn'))(15)[15:1],
+#        par.settings = list(axis.line = list(col = 'transparent')),
+#        strip = strip.custom(par.strip.text = list(cex = 0.95)),
+#        col = "black",
+#        at = seq(0, limit, length.out = 16),
+#        lwd = 0.025,
+#        layout = c(NSel, NMods))
 
 # Cartography of the Region of Valencia
 load(file.path("..", "data", "CartoCV.Rdata"))
