@@ -1134,7 +1134,7 @@ MCMCtrace(object = salnimble1,
           n.eff = TRUE,
           exact = TRUE,
           ISB = FALSE,
-          params = rownames(salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), ])[(salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), 6] > 1.05) | (salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), 7] < 200)])
+          params = rownames(salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), ])[(salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), 6] > 1.03) | (salwinbugs1$summary[startsWith(labels(salwinbugs1$summary)[[1]], test), 7] < 200)])
 ```
 
 ### Convergence assessment for Model-Corr
@@ -1244,7 +1244,7 @@ MCMCtrace(object = salnimble2,
           n.eff = TRUE,
           exact = TRUE,
           ISB = FALSE,
-          params = rownames(salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), ])[(salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), 6] > 1.05) | (salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), 7] < 200)])
+          params = rownames(salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), ])[(salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), 6] > 1.03) | (salwinbugs2$summary[startsWith(labels(salwinbugs2$summary)[[1]], test), 7] < 200)])
 ```
 
 ### Convergence assessment for Model-Corr&IRE
@@ -1407,7 +1407,7 @@ MCMCtrace(object = salnimble3,
           n.eff = TRUE,
           exact = TRUE,
           ISB = FALSE,
-          params = rownames(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), ])[(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 6] > 1.05) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 7] < 200)])
+          params = rownames(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), ])[(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 6] > 1.03) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 7] < 200)])
 ```
 
 ### Figure 1: Maps of the RV - theta
