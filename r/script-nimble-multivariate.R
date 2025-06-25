@@ -498,7 +498,7 @@ system.time(salnimble <- parLapply(cl = this_cluster, X = 1:n.chains,
 stopCluster(this_cluster)
 
 # 1.84h on a server with: niter = 8000, nburnin = 2000, thin = 30
-# saveRDS(salnimble, file = file.path("results", "multi", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
+# saveRDS(salnimble, file = file.path("results", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
 
 #### Model-Corr ####
 
@@ -744,7 +744,7 @@ system.time(salnimble <- parLapply(cl = this_cluster, X = 1:n.chains,
 stopCluster(this_cluster)
 
 # 6.18h on a server with: niter = 8000, nburnin = 2000, thin = 30
-# saveRDS(salnimble, file = file.path("results", "multi", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
+# saveRDS(salnimble, file = file.path("results", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
 
 #### Model-Corr&IRE ####
 
@@ -1009,15 +1009,15 @@ system.time(salnimble <- parLapply(cl = this_cluster, X = 1:n.chains,
 stopCluster(this_cluster)
 
 # 14.42h on a server with: niter = 8000, nburnin = 2000, thin = 30
-# saveRDS(salnimble, file = file.path("results", "multi", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
+# saveRDS(salnimble, file = file.path("results", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
 
 #### Results ####
 
 n.chains <- 5
 labels <- colnames(y)
-salnimble1 <- readRDS(file = file.path("results", "multi", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
-salnimble2 <- readRDS(file = file.path("results", "multi", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
-salnimble3 <- readRDS(file = file.path("results", "multi", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
+salnimble1 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
+salnimble2 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
+salnimble3 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
 
 #### Function: salnimble to salwinbugs for Model-Indep ####
 
@@ -2194,7 +2194,7 @@ for (Muni in 1:length(Munis)) {
   validation[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels, Muni = Munis[Muni])
 }
 
-# saveRDS(validation, file = file.path("results", "multi", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
+# saveRDS(validation, file = file.path("results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
 
 #### WAIC for Model-Indep ####
 
