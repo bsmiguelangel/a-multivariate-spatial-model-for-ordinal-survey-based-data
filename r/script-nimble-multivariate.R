@@ -1790,33 +1790,56 @@ spplot(carto_muni,
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
 
-thetasim <- salwinbugs3$sims.list$theta
+NMods <- 3
+thetasim <- array(dim = c(n.sims, NMuni, NVars, NMods))
+thetasim[, , , 1] <- salwinbugs1$sims.list$theta
+thetasim[, , , 2] <- salwinbugs2$sims.list$theta
+thetasim[, , , 3] <- salwinbugs3$sims.list$theta
+
+selection <- 1:NVars
+NSel <- length(selection)
+thetasim <- thetasim[, , selection, ]
 
 # Fiveteen equal-probability intervals
-breaks <- c(min(apply(thetasim, c(2, 3), mean)) - 0.001, quantile(apply(thetasim, c(2, 3), mean), probs = seq(1/15, 14/15, length.out = 14)), max(apply(thetasim, c(2, 3), mean)))
+breaks <- c(min(apply(thetasim, 2:4, mean)) - 0.001, quantile(apply(thetasim, 2:4, mean), probs = seq(1/15, 14/15, length.out = 14)), max(apply(thetasim, 2:4, mean)))
 breaks <- c(-3.75, -0.75, -0.25, -0.20, -0.15, -0.10, -0.05, -0.02, 
             0.02, 0.05, 0.10, 0.15, 0.20, 0.25, 0.75, 3.75)
 
-for (Var in 1:NVars) {
-  carto_muni@data[[paste0(colnames(y)[Var], "thetamean")]] <- cut(apply(thetasim[, , Var], 2, mean), breaks = breaks, include.lowest = FALSE, right = TRUE)
-  
-  levels(carto_muni@data[[paste0(colnames(y)[Var], "thetamean")]]) <- gsub("<=", "\u2264", c("<= -0.75", "(-0.75, -0.25]", "(-0.25, -0.20]", "(-0.20, -0.15]",
-                                                                                             "(-0.15, -0.10]", "(-0.10, -0.05]", "(-0.05, -0.02]", "(-0.02, 0.02]",
-                                                                                             "(0.02, 0.05]", "(0.05, 0.10]", "(0.10, 0.15]", "(0.15, 0.20]",
-                                                                                             "(0.20, 0.25]", "(0.25, 0.75]", "> 0.75"))
+mod_labels <- c("Indep", "Corr", "CorrandIRE")
+for (Mod in 1:NMods) {
+  for (Sel in 1:NSel) {
+    carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]] <- cut(apply(thetasim[, , Sel, Mod], 2, mean), breaks = breaks, include.lowest = FALSE, right = TRUE)
+    
+    levels(carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]]) <- gsub("<=", "\u2264", c("<= -0.75", "(-0.75, -0.25]", "(-0.25, -0.20]", "(-0.20, -0.15]", 
+                                                                                                                           "(-0.15, -0.10]", "(-0.10, -0.05]", "(-0.05, -0.02]", "(-0.02, 0.02]", 
+                                                                                                                           "(0.02, 0.05]", "(0.05, 0.10]", "(0.10, 0.15]", "(0.15, 0.20]",
+                                                                                                                           "(0.20, 0.25]", "(0.25, 0.75]", "> 0.75"))
+  }
 }
 
+mod_labels <- c("CorrandIRE", "Corr", "Indep")
+all_labels <- matrix(nrow = NSel, ncol = NMods)
+for (Sel in 1:NSel) {
+  for (Mod in 1:NMods) {
+    all_labels[Sel, Mod] <- paste0(labels[selection[Sel]], ".", mod_labels[Mod])
+  }
+}
+all_labels <- as.character(all_labels)
+
 spplot(carto_muni,
-       c("P8_7thetamean", "P8_8thetamean", "P8_9thetamean", "P8_10thetamean", "P8_11thetamean", "P8_12thetamean",
-         "P8_1thetamean", "P8_2thetamean", "P8_3thetamean", "P8_4thetamean", "P8_5thetamean", "P8_6thetamean"),
-       names.attr = c(labels[7:12], labels[1:6]),
+       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+         colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
+         colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
+       names.attr = all_labels,
        col.regions = colorRampPalette(brewer.pal(7,'BrBG'))(15),
        cuts = 14,
-       par.settings = list(axis.line = list(col = 'transparent')),
-       strip = strip.custom(par.strip.text = list(cex = 0.6)),
+       par.settings = list(layout.widths = list(left.padding = 0, right.padding = 0),
+                           layout.heights = list(top.padding = 0, bottom.padding = 0),
+                           axis.line = list(col = 'transparent')),
+       strip = strip.custom(par.strip.text = list(cex = 0.95)),
        col = "black",
-       lwd = 0.10,
-       layout = c(NVars/2, 2))
+       lwd = 0.025,
+       layout = c(NSel, NMods))
 
 #### Maps of the RV - P(theta < 0 | y) ####
 
@@ -1830,7 +1853,7 @@ thetasim[, , , 1] <- salwinbugs1$sims.list$theta
 thetasim[, , , 2] <- salwinbugs2$sims.list$theta
 thetasim[, , , 3] <- salwinbugs3$sims.list$theta
 
-# Checking when theta is LESS than zero (worse self-perceived health)
+# Checking when theta is LESS than zero
 stepsim <- array(dim = c(n.sims, NMuni, NVars, NMods))
 for (Mod in 1:NMods) {
   for (Var in 1:NVars) {
@@ -1882,37 +1905,61 @@ spplot(carto_muni,
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
 
-thetasim <- salwinbugs3$sims.list$theta
+NMods <- 3
+mod_labels <- c("Indep", "Corr", "CorrandIRE")
+thetasim <- array(dim = c(n.sims, NMuni, NVars, NMods))
+thetasim[, , , 1] <- salwinbugs1$sims.list$theta
+thetasim[, , , 2] <- salwinbugs2$sims.list$theta
+thetasim[, , , 3] <- salwinbugs3$sims.list$theta
 
-# Checking when theta is LESS than zero (worse self-perceived health)
-stepsim <- array(dim = c(n.sims, NMuni, NVars))
-for (Var in 1:NVars) {
-  for (sim in 1:n.sims) {
-    for (Muni in 1:NMuni) {
-      stepsim[sim, Muni, Var] <- ifelse(thetasim[sim, Muni, Var] < 0, 1, 0)
+# Checking when theta is LESS than zero
+stepsim <- array(dim = c(n.sims, NMuni, NVars, NMods))
+for (Mod in 1:NMods) {
+  for (Var in 1:NVars) {
+    for (sim in 1:n.sims) {
+      for (Muni in 1:NMuni) {
+        stepsim[sim, Muni, Var, Mod] <- ifelse(thetasim[sim, Muni, Var, Mod] < 0, 1, 0)
+      }
     }
   }
 }
 
-for (Var in 1:NVars) {
-  carto_muni@data[[paste0(colnames(y)[Var], "probmean")]] <- apply(stepsim[, , Var], 2, mean)
+selection <- 1:NVars
+NSel <- length(selection)
+stepsim <- stepsim[, , selection, ]
+
+mod_labels <- c("Indep", "Corr", "CorrandIRE")
+for (Mod in 1:NMods) {
+  for (Sel in 1:NSel) {
+    carto_muni@data[[paste0(colnames(y)[selection[Sel]], "probmean", mod_labels[Mod])]] <- apply(stepsim[, , Sel, Mod], 2, mean)
+  }
 }
 
 kk <- unlist(carto_muni@data[, startsWith(colnames(carto_muni@data), "P8_")])
 
 limit <- max(kk) + 0.01
 
+mod_labels <- c("CorrandIRE", "Corr", "Indep")
+all_labels <- matrix(nrow = NSel, ncol = NMods)
+for (Sel in 1:NSel) {
+  for (Mod in 1:NMods) {
+    all_labels[Sel, Mod] <- paste0(labels[selection[Sel]], ".", mod_labels[Mod])
+  }
+}
+all_labels <- as.character(all_labels)
+
 spplot(carto_muni,
-       c("P8_7probmean", "P8_8probmean", "P8_9probmean", "P8_10probmean", "P8_11probmean", "P8_12probmean",
-         "P8_1probmean", "P8_2probmean", "P8_3probmean", "P8_4probmean", "P8_5probmean", "P8_6probmean"),
-       names.attr = c(labels[7:12], labels[1:6]),
+       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+         colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
+         colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
+       names.attr = all_labels,
        col.regions = colorRampPalette(brewer.pal(7,'RdYlGn'))(15)[15:1],
        par.settings = list(axis.line = list(col = 'transparent')),
-       strip = strip.custom(par.strip.text = list(cex = 0.6)),
+       strip = strip.custom(par.strip.text = list(cex = 0.95)),
        col = "black",
        at = seq(0, limit, length.out = 16),
-       lwd = 0.10,
-       layout = c(NVars/2, 2))
+       lwd = 0.025,
+       layout = c(NSel, NMods))
 
 #### Maps of the RV - PCA ####
 
