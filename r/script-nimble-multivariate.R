@@ -15,9 +15,9 @@ HSRV2022 <- read.spss(file.path("data", "ESCV2022_UV_Matem.sav"),
 # Sample size
 NResp <- nrow(HSRV2022)
 
-#### Mental health conditions ####
+#### Mental health conditions: GHQ-12 items ####
 
-# P8_1 Concentración
+# P8_1 Concentrate
 levels(HSRV2022$P8_1)
 table(HSRV2022$P8_1)
 HSRV2022$P8_1[HSRV2022$P8_1 == "NS/NC"] <- NA
@@ -27,17 +27,17 @@ levels(HSRV2022$P8_1) <- c("More", "Same", "Less", "Much less")
 table(HSRV2022$P8_1)
 P8_1 <- as.numeric(HSRV2022$P8_1)
 
-# P8_2 Preocupaciones y sueño
+# P8_2 Lose sleep over worries 
 levels(HSRV2022$P8_2)
 table(HSRV2022$P8_2)
 HSRV2022$P8_2[HSRV2022$P8_2 == "NS/NC"] <- NA
 HSRV2022$P8_2 <- factor(HSRV2022$P8_2, levels = c("Más que lo habitual", "Igual que lo habitual", 
                                                   "Menos que lo habitual", "Mucho menos que lo habitual"))
-levels(HSRV2022$P8_2) <- c("No", "Same", "More", "Much more")
+levels(HSRV2022$P8_2) <- c("Not at all", "No more", "Rather more", "Much more than usual")
 table(HSRV2022$P8_2)
 P8_2 <- as.numeric(HSRV2022$P8_2)
 
-# P8_3 Papel útil
+# P8_3 Play a useful role
 levels(HSRV2022$P8_3)
 table(HSRV2022$P8_3)
 HSRV2022$P8_3[HSRV2022$P8_3 == "NS/NC"] <- NA
@@ -47,7 +47,7 @@ levels(HSRV2022$P8_3) <- c("More", "Same", "Less", "Much less")
 table(HSRV2022$P8_3)
 P8_3 <- as.numeric(HSRV2022$P8_3)
 
-# P8_4 Tomar decisiones
+# P8_4 Make decisions
 levels(HSRV2022$P8_4)
 table(HSRV2022$P8_4)
 HSRV2022$P8_4[HSRV2022$P8_4 == "NS/NC"] <- NA
@@ -57,27 +57,27 @@ levels(HSRV2022$P8_4) <- c("More", "Same", "Less", "Much less")
 table(HSRV2022$P8_4)
 P8_4 <- as.numeric(HSRV2022$P8_4)
 
-# P8_5 Agobio y tensión
+# P8_5 Constantly under strain
 levels(HSRV2022$P8_5)
 table(HSRV2022$P8_5)
 HSRV2022$P8_5[HSRV2022$P8_5 == "NS/NC"] <- NA
 HSRV2022$P8_5 <- factor(HSRV2022$P8_5, levels = c("Más que lo habitual", "Igual que lo habitual", 
                                                   "Menos que lo habitual", "Mucho menos que lo habitual"))
-levels(HSRV2022$P8_5) <- c("No", "Same", "More", "Much more")
+levels(HSRV2022$P8_5) <- c("Not at all", "No more", "Rather more", "Much more than usual")
 table(HSRV2022$P8_5)
 P8_5 <- as.numeric(HSRV2022$P8_5)
 
-# P8_6 Superar dificultades
+# P8_6 Unable to overcome difficulties 
 levels(HSRV2022$P8_6)
 table(HSRV2022$P8_6)
 HSRV2022$P8_6[HSRV2022$P8_6 == "NS/NC"] <- NA
 HSRV2022$P8_6 <- factor(HSRV2022$P8_6, levels = c("Más que lo habitual", "Igual que lo habitual", 
                                                   "Menos que lo habitual", "Mucho menos que lo habitual"))
-levels(HSRV2022$P8_6) <- c("No", "Same", "More", "Much more")
+levels(HSRV2022$P8_6) <- c("Not at all", "No more", "Rather more", "Much more than usual")
 table(HSRV2022$P8_6)
 P8_6 <- as.numeric(HSRV2022$P8_6)
 
-# P8_7 Disfrutar actividades
+# P8_7 Enjoy activities 
 levels(HSRV2022$P8_7)
 table(HSRV2022$P8_7)
 HSRV2022$P8_7[HSRV2022$P8_7 == "NS/NC"] <- NA
@@ -87,7 +87,7 @@ levels(HSRV2022$P8_7) <- c("More", "Same", "Less", "Much less")
 table(HSRV2022$P8_7)
 P8_7 <- as.numeric(HSRV2022$P8_7)
 
-# P8_8 Frente problemas
+# P8_8 Face up to problems 
 levels(HSRV2022$P8_8)
 table(HSRV2022$P8_8)
 HSRV2022$P8_8[HSRV2022$P8_8 == "NS/NC"] <- NA
@@ -97,37 +97,37 @@ levels(HSRV2022$P8_8) <- c("More", "Same", "Less", "Much less")
 table(HSRV2022$P8_8)
 P8_8 <- as.numeric(HSRV2022$P8_8)
 
-# P8_9 Poca felicidad y depresión
+# P8_9 Feel depressed
 levels(HSRV2022$P8_9)
 table(HSRV2022$P8_9)
 HSRV2022$P8_9[HSRV2022$P8_9 == "NS/NC"] <- NA
 HSRV2022$P8_9 <- factor(HSRV2022$P8_9, levels = c("Más que lo habitual", "Igual que lo habitual", 
                                                   "Menos que lo habitual", "Mucho menos que lo habitual"))
-levels(HSRV2022$P8_9) <- c("No", "Same", "More", "Much more")
+levels(HSRV2022$P8_9) <- c("Not at all", "No more", "Rather more", "Much more than usual")
 table(HSRV2022$P8_9)
 P8_9 <- as.numeric(HSRV2022$P8_9)
 
-# P8_10 Confianza
+# P8_10 Lose confidence
 levels(HSRV2022$P8_10)
 table(HSRV2022$P8_10)
 HSRV2022$P8_10[HSRV2022$P8_10 == "NS/NC"] <- NA
 HSRV2022$P8_10 <- factor(HSRV2022$P8_10, levels = c("Más que lo habitual", "Igual que lo habitual", 
                                                     "Menos que lo habitual", "Mucho menos que lo habitual"))
-levels(HSRV2022$P8_10) <- c("No", "Same", "More", "Much more")
+levels(HSRV2022$P8_10) <- c("Not at all", "No more", "Rather more", "Much more than usual")
 table(HSRV2022$P8_10)
 P8_10 <- as.numeric(HSRV2022$P8_10)
 
-# P8_11 No valer nada
+# P8_11 Feel worthless
 levels(HSRV2022$P8_11)
 table(HSRV2022$P8_11)
 HSRV2022$P8_11[HSRV2022$P8_11 == "NS/NC"] <- NA
 HSRV2022$P8_11 <- factor(HSRV2022$P8_11, levels = c("Más que lo habitual", "Igual que lo habitual", 
                                                     "Menos que lo habitual", "Mucho menos que lo habitual"))
-levels(HSRV2022$P8_11) <- c("No", "Same", "More", "Much more")
+levels(HSRV2022$P8_11) <- c("Not at all", "No more", "Rather more", "Much more than usual")
 table(HSRV2022$P8_11)
 P8_11 <- as.numeric(HSRV2022$P8_11)
 
-# P8_12 Feliz con lo anterior
+# P8_12 Feel reasonably happy
 levels(HSRV2022$P8_12)
 table(HSRV2022$P8_12)
 HSRV2022$P8_12[HSRV2022$P8_12 == "NS/NC"] <- NA
@@ -317,13 +317,13 @@ modelCode <- nimbleCode(
                                         from.to = from.to[1:NDist, 1:2])
     }
     
-    # Hyperparameter of the spatial random effects
+    # Hyperparameters of the spatial random effects
     for (Var in 1:NVars) {
       rho[Var] ~ dunif(0, 1)
       sd.theta[Var] ~ dhalfflat()
     }
     
-    # Stochastic restrictions in order to avoid (possible) spatial confounding problems:
+    # Stochastic restrictions
     # Required vectors
     for (Var in 1:NVars) {
       for (Resp in 1:NResp) {
@@ -340,15 +340,12 @@ modelCode <- nimbleCode(
 
 ### Data to be loaded ###
 
-modelData <- list(y = as.matrix(y), 
-                  zero.theta.resp = rep(0, NVars)
-)
+modelData <- list(y = as.matrix(y), zero.theta.resp = rep(0, NVars))
 
 modelConstants <- list(NResp = NResp, NCats = NCats, NVars = NVars, sex = sex, 
                        age = age, muni = muni, NSex = NSex, NAges = NAges, 
                        NMuni = NMuni, ones = ones, NDist = NDist, Lambda = Lambda, 
-                       from.to = from.to
-)
+                       from.to = from.to)
 
 ### Parameters to be saved ###
 
@@ -424,9 +421,8 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
                                                   dim = c(NSex, NAges, NVars, NCats)),
                                     rho = runif(NVars),
                                     theta = matrix(rnorm(NMuni * NVars, sd = 0.1), nrow = NMuni, ncol = NVars),
-                                    sd.theta = runif(NVars))
-                       , calculate = FALSE
-  )
+                                    sd.theta = runif(NVars)), 
+                       calculate = FALSE)
   
   # Compile the model, which means generating C++ code, compiling that code, and loading it back into R
   Cmodel <- compileNimble(model)
@@ -502,7 +498,7 @@ system.time(salnimble <- parLapply(cl = this_cluster, X = 1:n.chains,
 stopCluster(this_cluster)
 
 # 1.84h on a server with: niter = 8000, nburnin = 2000, thin = 30
-saveRDS(salnimble, file = file.path("results", "multi", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
+# saveRDS(salnimble, file = file.path("results", "multi", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
 
 #### Model-Corr ####
 
@@ -579,7 +575,7 @@ modelCode <- nimbleCode(
     tau.M.Muni <- pow(sd.M.Muni, -2)
     sd.M.Muni ~ dhalfflat()
     
-    # Stochastic restrictions in order to avoid (possible) spatial confounding problems:
+    # Stochastic restrictions
     # Required vectors
     for (Var in 1:NVars) {
       for (Resp in 1:NResp) {
@@ -596,15 +592,12 @@ modelCode <- nimbleCode(
 
 ### Data to be loaded ###
 
-modelData <- list(y = as.matrix(y), 
-                  zero.sub.Muni.resp = rep(0, NVars)
-)
+modelData <- list(y = as.matrix(y), zero.sub.Muni.resp = rep(0, NVars))
 
 modelConstants <- list(NResp = NResp, NCats = NCats, NVars = NVars, sex = sex, 
                        age = age, muni = muni, NSex = NSex, NAges = NAges, 
                        NMuni = NMuni, ones = ones, NDist = NDist, Lambda = Lambda, 
-                       from.to = from.to
-)
+                       from.to = from.to)
 
 ### Parameters to be saved ###
 
@@ -681,9 +674,8 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
                                     rho = runif(NVars),
                                     sub.Muni = matrix(rnorm(NMuni * NVars, sd = 0.01), nrow = NMuni, ncol = NVars),
                                     M.Muni = matrix(rnorm(NVars * NVars, sd = 0.5), ncol = NVars, nrow = NVars),
-                                    sd.M.Muni = runif(1, min = 0.2, max = 0.8))
-                       , calculate = FALSE
-  )
+                                    sd.M.Muni = runif(1, min = 0.2, max = 0.8)), 
+                       calculate = FALSE)
   
   # Compile the model, which means generating C++ code, compiling that code, and loading it back into R
   Cmodel <- compileNimble(model)
@@ -752,7 +744,7 @@ system.time(salnimble <- parLapply(cl = this_cluster, X = 1:n.chains,
 stopCluster(this_cluster)
 
 # 6.18h on a server with: niter = 8000, nburnin = 2000, thin = 30
-saveRDS(salnimble, file = file.path("results", "multi", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
+# saveRDS(salnimble, file = file.path("results", "multi", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
 
 #### Model-Corr&IRE ####
 
@@ -832,7 +824,6 @@ modelCode <- nimbleCode(
       for (Var2 in 1:NVars) {
         M.Resp[Var1, Var2] ~ dnorm(0, tau.M.Resp)
         M.Muni[Var1, Var2] ~ dnorm(0, tau.M.Muni)
-        # M.Muni[Var1, Var2] ~ dflat()
       }
     }
     
@@ -843,7 +834,7 @@ modelCode <- nimbleCode(
     tau.M.Muni <- pow(sd.M.Muni, -2)
     sd.M.Muni ~ dhalfflat()
     
-    # Stochastic restrictions in order to avoid (possible) spatial confounding problems:
+    # Stochastic restrictions
     # Required vectors
     for (Var in 1:NVars) {
       for (Resp in 1:NResp) {
@@ -860,21 +851,17 @@ modelCode <- nimbleCode(
 
 ### Data to be loaded ###
 
-modelData <- list(y = as.matrix(y), 
-                  zero.sub.Muni.resp = rep(0, NVars)
-)
+modelData <- list(y = as.matrix(y), zero.sub.Muni.resp = rep(0, NVars))
 
 modelConstants <- list(NResp = NResp, NCats = NCats, NVars = NVars, sex = sex, 
                        age = age, muni = muni, NSex = NSex, NAges = NAges, 
                        NMuni = NMuni, ones = ones, NDist = NDist, Lambda = Lambda, 
-                       from.to = from.to
-)
+                       from.to = from.to)
 
 ### Parameters to be saved ###
 
 modelParameters <- c("kappa", "theta", "M.Muni", "rho",
-                     "sd.M.Muni",
-                     "psi", "M.Resp", "sd.M.Resp", 
+                     "sd.M.Muni", "psi", "M.Resp", "sd.M.Resp", 
                      "delta", "sub.Muni", "sub.Resp")
 
 # Create a function with all the needed code
@@ -950,9 +937,8 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
                                     sd.M.Resp = runif(1, min = 0.2, max = 0.8),
                                     sub.Muni = matrix(rnorm(NMuni * NVars, sd = 0.01), nrow = NMuni, ncol = NVars),
                                     M.Muni = matrix(rnorm(NVars * NVars, sd = 0.5), ncol = NVars, nrow = NVars),
-                                    sd.M.Muni = runif(1, min = 0.2, max = 0.8))
-                       , calculate = FALSE
-  )
+                                    sd.M.Muni = runif(1, min = 0.2, max = 0.8)), 
+                       calculate = FALSE)
   
   # Compile the model, which means generating C++ code, compiling that code, and loading it back into R
   Cmodel <- compileNimble(model)
@@ -964,8 +950,7 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
                                           enableWAIC = TRUE)
   
   # Remove desire samplers
-  modelMCMCconfiguration$removeSamplers(c("sub.Muni", "rho", 
-                                          "sd.M.Muni",
+  modelMCMCconfiguration$removeSamplers(c("sub.Muni", "rho", "sd.M.Muni",
                                           "sd.M.Resp"))
   
   # Add slice/RW-MH sub.Muni[1:NMuni, 1:NVars] samplers
@@ -1024,7 +1009,7 @@ system.time(salnimble <- parLapply(cl = this_cluster, X = 1:n.chains,
 stopCluster(this_cluster)
 
 # 14.42h on a server with: niter = 8000, nburnin = 2000, thin = 30
-saveRDS(salnimble, file = file.path("results", "multi", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
+# saveRDS(salnimble, file = file.path("results", "multi", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
 
 #### Results ####
 
@@ -1033,7 +1018,6 @@ labels <- colnames(y)
 salnimble1 <- readRDS(file = file.path("results", "multi", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
 salnimble2 <- readRDS(file = file.path("results", "multi", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
 salnimble3 <- readRDS(file = file.path("results", "multi", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
-# salnimble3 <- readRDS(file = file.path("results", "multi", "multi-2022-nimble-MH-corr-ire-df-8k-2k-30-WAIC.rds"))
 
 #### Function: salnimble to salwinbugs for Model-Indep ####
 
@@ -1188,7 +1172,7 @@ NimToWin <- function(salnimble) {
   sd.M.Resp <- numeric(length = n.sims)
   M.Resp <- array(dim = c(n.sims, NVars, NVars))
   theta <- array(dim = c(n.sims, NMuni, NVars))
-  # sd.M.Muni <- numeric(length = n.sims)
+  sd.M.Muni <- numeric(length = n.sims)
   M.Muni <- array(dim = c(n.sims, NVars, NVars))
   rho <- matrix(nrow = n.sims, ncol = NVars)
   
@@ -1240,9 +1224,9 @@ NimToWin <- function(salnimble) {
     }
   }
   
-  # sd.M.Muni <- c(salnimble[[1]][, "sd.M.Muni"], salnimble[[2]][, "sd.M.Muni"],
-  #                salnimble[[3]][, "sd.M.Muni"], salnimble[[4]][, "sd.M.Muni"],
-  #                salnimble[[5]][, "sd.M.Muni"])
+  sd.M.Muni <- c(salnimble[[1]][, "sd.M.Muni"], salnimble[[2]][, "sd.M.Muni"],
+                 salnimble[[3]][, "sd.M.Muni"], salnimble[[4]][, "sd.M.Muni"],
+                 salnimble[[5]][, "sd.M.Muni"])
   
   for (Var1 in 1:NVars) {
     for (Var2 in 1:NVars) {
@@ -1264,10 +1248,9 @@ NimToWin <- function(salnimble) {
   
   summary <- MCMCsummary(object = salnimble, round = 4)
   # summary <- "not available"
-  sims.list <- list("kappa" = kappa, 
-                    "theta" = theta, "M.Muni" = M.Muni, "rho" = rho,
-                    # "sd.M.Muni" = sd.M.Muni, 
-                    "psi" = psi, "sd.M.Resp" = sd.M.Resp, "M.Resp" = M.Resp)
+  sims.list <- list("kappa" = kappa, "theta" = theta, "M.Muni" = M.Muni, 
+                    "rho" = rho, "sd.M.Muni" = sd.M.Muni, "psi" = psi, 
+                    "sd.M.Resp" = sd.M.Resp, "M.Resp" = M.Resp)
   
   salwinbugs <- list("summary" = summary, "sims.list" = sims.list,
                      "n.chains" = n.chains, "n.sims" = n.sims)
@@ -1465,7 +1448,8 @@ Corr.mean <- data.frame(Corr.mean); rownames(Corr.mean) <- labels;
 colnames(Corr.mean) <- labels
 
 # orden <- corrMatOrder(as.matrix(Corr.mean), order = "hclust", hclust.method = "ward.D2")
-orden <- c(1, 3, 4, 7, 8, 12, 2, 5, 6, 9, 10, 11)
+# orden <- c(1, 3, 4, 7, 8, 12, 2, 5, 6, 9, 10, 11)
+orden <- c(3, 4, 1, 8, 7, 12, 11, 9, 10, 2, 5, 6)
 # orden <- 1:NVars
 
 Corr.mean.orden <- as.matrix(Corr.mean)
@@ -1496,21 +1480,26 @@ colnames(Relevance) <- rownames(Relevance) <-  colnames(Corr.mean.orden)
 Relevance <- (Relevance - 1) * (-1)
 for (Var in 1:NVars) { Relevance[Var, Var] <- 1 }
 
+# First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
-         type = "lower", method = "ellipse", tl.cex = 0.9,
+         type = "lower", method = "ellipse", 
          p.mat = Relevance, sig.level = 0.05, insig = "label_sig",
          pch.cex = 1.5, pch.col = "grey20",
-         addCoef.col = "black", number.cex = 0.8, diag = FALSE)
+         addCoef.col = "black", number.cex = 0.8,
+         tl.pos = "d", tl.cex = 0.9, cl.pos = "r")
 
+# Second: CI in upper triangular
 corrplot(as.matrix(Corr.mean.orden),
-         type = "lower", method = "ellipse", tl.cex = 0.9,
-         p.mat = Relevance, sig.level = 0.05, insig = "blank",
-         addCoef.col = "black", number.cex = 0.8, diag = FALSE)
+         type = "upper", method = "square",
+         diag = FALSE, add = TRUE, cl.pos = "n",
+         plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
+         uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 
 #### Spatial correlation matrix for Model-Corr and Model-Corr&IRE ####
 
 # orden <- corrMatOrder(as.matrix(Corr.mean), order = "hclust", hclust.method = "ward.D2")
 # orden <- c(1, 3, 4, 7, 8, 12, 2, 5, 6, 9, 10, 11)
+orden <- c(3, 4, 1, 8, 7, 12, 11, 9, 10, 2, 5, 6)
 # orden <- 1:NVars
 
 SurveyMapping.Sigma.Muni <- function(salwinbugs) {
@@ -1528,12 +1517,11 @@ SurveyMapping.Sigma.Muni <- function(salwinbugs) {
 }
 
 salwinbugs <- salwinbugs3
-# Conjunto de las n.sims matrices de varianzas-covarianzas
 n.sims <- salwinbugs$n.sims
 Sigma.Munisim <- SurveyMapping.Sigma.Muni(salwinbugs = salwinbugs)
 Corr <- array(dim = c(n.sims, NVars, NVars))
 
-# Conjunto de las n.sims matrices de correlaciones
+# Set of the n.sims correlation matrices
 for (sim in 1:n.sims) {
   Corr[sim, , ] <- diag(diag(Sigma.Munisim[sim, , ])^(-1/2)) %*% Sigma.Munisim[sim, , ] %*%  diag(diag(Sigma.Munisim[sim, , ])^(-1/2))
 }
@@ -1562,6 +1550,7 @@ colnames(Corr.mean) <- labels
 
 # orden <- corrMatOrder(as.matrix(Corr.mean), order = "hclust", hclust.method = "ward.D2")
 # orden <- c(1, 3, 4, 7, 8, 12, 2, 5, 6, 9, 10, 11)
+# orden <- c(3, 4, 1, 8, 7, 12, 11, 9, 10, 2, 5, 6)
 # orden <- 1:NVars
 
 Corr.mean.orden <- as.matrix(Corr.mean)
@@ -1592,17 +1581,6 @@ colnames(Relevance) <- rownames(Relevance) <-  colnames(Corr.mean.orden)
 Relevance <- (Relevance - 1) * (-1)
 for (Var in 1:NVars) { Relevance[Var, Var] <- 1 }
 
-corrplot(as.matrix(Corr.mean.orden),
-         type = "lower", method = "ellipse", tl.cex = 0.9,
-         p.mat = Relevance, sig.level = 0.05, insig = "label_sig",
-         pch.cex = 1.5, pch.col = "grey20",
-         addCoef.col = "black", number.cex = 0.8, diag = FALSE)
-
-corrplot(as.matrix(Corr.mean.orden),
-         type = "lower", method = "ellipse", tl.cex = 0.9,
-         p.mat = Relevance, sig.level = 0.05, insig = "blank",
-         addCoef.col = "black", number.cex = 0.8, diag = FALSE)
-
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
          type = "lower", method = "ellipse", 
@@ -1622,6 +1600,7 @@ corrplot(as.matrix(Corr.mean.orden),
 
 # orden <- corrMatOrder(as.matrix(Corr.mean), order = "hclust", hclust.method = "ward.D2")
 # orden <- c(1, 3, 4, 7, 8, 12, 2, 5, 6, 9, 10, 11)
+# orden <- c(3, 4, 1, 8, 7, 12, 11, 9, 10, 2, 5, 6)
 # orden <- 1:NVars
 
 SurveyMapping.Sigma.Resp <- function(salwinbugs) {
@@ -1640,12 +1619,11 @@ SurveyMapping.Sigma.Resp <- function(salwinbugs) {
 
 salwinbugs <- salwinbugs3
 
-# Conjunto de las n.sims matrices de varianzas-covarianzas
 n.sims <- salwinbugs$n.sims
 Sigma.Respsim <- SurveyMapping.Sigma.Resp(salwinbugs = salwinbugs)
 Corr <- array(dim = c(n.sims, NVars, NVars))
 
-# Conjunto de las n.sims matrices de correlaciones
+# Set of the n.sims correlation matrices
 for (sim in 1:n.sims) {
   Corr[sim, , ] <- diag(diag(Sigma.Respsim[sim, , ])^(-1/2)) %*% Sigma.Respsim[sim, , ] %*%  diag(diag(Sigma.Respsim[sim, , ])^(-1/2))
 }
@@ -1671,6 +1649,7 @@ Corr.mean <- data.frame(Corr.mean); rownames(Corr.mean) <- labels; colnames(Corr
 
 orden <- corrMatOrder(as.matrix(Corr.mean), order = "hclust", hclust.method = "ward.D2")
 # orden <- c(1, 3, 4, 7, 8, 12, 2, 5, 6, 9, 10, 11)
+# orden <- c(3, 4, 1, 8, 7, 12, 11, 9, 10, 2, 5, 6)
 # orden <- 1:NVars
 
 Corr.mean.orden <- as.matrix(Corr.mean)
@@ -1701,17 +1680,6 @@ colnames(Relevance) <- rownames(Relevance) <-  colnames(Corr.mean.orden)
 Relevance <- (Relevance - 1) * (-1)
 for (Var in 1:NVars) { Relevance[Var, Var] <- 1 }
 
-corrplot(as.matrix(Corr.mean.orden),
-         type = "lower", method = "ellipse", tl.cex = 0.9,
-         p.mat = Relevance, sig.level = 0.05, insig = "label_sig",
-         pch.cex = 1.5, pch.col = "grey20",
-         addCoef.col = "black", number.cex = 0.8, diag = FALSE)
-
-corrplot(as.matrix(Corr.mean.orden),
-         type = "lower", method = "ellipse", tl.cex = 0.9,
-         p.mat = Relevance, sig.level = 0.05, insig = "blank",
-         addCoef.col = "black", number.cex = 0.8, diag = FALSE)
-
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
          type = "lower", method = "ellipse", 
@@ -1727,26 +1695,7 @@ corrplot(as.matrix(Corr.mean.orden),
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 
-# order = "hclust"
-
-# ... #
-
-# First: ellipses in lower triangular
-corrplot(as.matrix(Corr.mean), order = "hclust", hclust.method = "ward.D2",
-         type = "full", method = "ellipse", addrect = 2,
-         p.mat = Relevance, sig.level = 0.05, insig = "label_sig",
-         pch.cex = 1.5, pch.col = "grey20",
-         addCoef.col = "black", number.cex = 0.8,
-         tl.pos = "d", tl.cex = 0.9, cl.pos = "r")
-
-# Second: CI in upper triangular
-corrplot(as.matrix(Corr.mean.orden),
-         type = "upper", method = "square",
-         diag = FALSE, add = TRUE, cl.pos = "n",
-         plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
-         uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-
-#### Número de encuestados por área ####
+#### Number of respondents by small-area ####
 
 # Does the municipality have any respondents?
 carto_muni@data$index <- as.factor(as.numeric((1:NMuni %in% sort(unique(muni)))))
@@ -1797,45 +1746,10 @@ selection <- 1:4
 NSel <- length(selection)
 thetasim <- thetasim[, , selection, ]
 
-# Nine equal-probability intervals
-# breaks <- c(min(apply(thetasim, c(2, 3), mean)) - 0.001, quantile(apply(thetasim, c(2, 3), mean), probs = seq(1/9, 8/9, length.out = 8)), max(apply(thetasim, c(2, 3), mean)))
+# Fiveteen equal-probability intervals
 breaks <- c(min(apply(thetasim, 2:4, mean)) - 0.001, quantile(apply(thetasim, 2:4, mean), probs = seq(1/15, 14/15, length.out = 14)), max(apply(thetasim, 2:4, mean)))
 breaks <- c(-2.20, -0.5, -0.35, -0.25, -0.20, -0.15, -0.10, -0.05, 
             0.05, 0.10, 0.15, 0.20, 0.25, 0.35, 0.5, 2.20)
-breaks <- c(-2.25, -0.5, -0.35, -0.25, -0.20, -0.15, -0.10, -0.05, 
-            0.05, 0.10, 0.15, 0.20, 0.25, 0.35, 0.5, 2.25)
-
-# for (Mod in 1:NMods) {
-#   for (Sel in 1:NSel) {
-#     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]] <- cut(apply(thetasim[, , Sel, Mod], 2, mean), breaks = breaks, include.lowest = FALSE, right = TRUE)
-#     
-#     # We order the factor levels to match the colors appropriately
-#     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]] <- factor(carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]], levels = rev(levels(carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]])))
-#     levels(carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]]) <- c("Better", " ", "  ", "   ", "    ",
-#                                                                           "     ", "      ", "       ", "        ",
-#                                                                           "         ", "          ", "           ",
-#                                                                           "               ", "                ", "Worse")
-#   }
-# }
-# 
-# all_labels <- matrix(nrow = NSel, ncol = NMods)
-# for (Sel in 1:NSel) {
-#   for (Mod in 1:NMods) {
-#     all_labels[Sel, Mod] <- paste0(labels[selection[Sel]], mod_labels[Mod])
-#   }
-# }
-# all_labels <- as.character(all_labels)
-# 
-# spplot(carto_muni,
-#        colnames(carto_muni@data[, startsWith(colnames(carto_muni@data), "P8_")]),
-#        names.attr = all_labels,
-#        col.regions = colorRampPalette(brewer.pal(7,'BrBG'))(15),
-#        cuts = 14,
-#        par.settings = list(axis.line = list(col = 'transparent')),
-#        strip = strip.custom(par.strip.text = list(cex = 0.6)),
-#        col = "black",
-#        lwd = 0.10,
-#        layout = c(NSel, NMods))
 
 mod_labels <- c("Indep", "Corr", "CorrandIRE")
 for (Mod in 1:NMods) {
@@ -1865,10 +1779,12 @@ spplot(carto_muni,
        names.attr = all_labels,
        col.regions = colorRampPalette(brewer.pal(7,'BrBG'))(15),
        cuts = 14,
-       par.settings = list(axis.line = list(col = 'transparent')),
-       strip = strip.custom(par.strip.text = list(cex = 0.6)),
+       par.settings = list(layout.widths = list(left.padding = 0, right.padding = 0),
+                           layout.heights = list(top.padding = 0, bottom.padding = 0),
+                           axis.line = list(col = 'transparent')),
+       strip = strip.custom(par.strip.text = list(cex = 0.95)),
        col = "black",
-       lwd = 0.10,
+       lwd = 0.025,
        layout = c(NSel, NMods))
 
 # Cartography of the Region of Valencia
@@ -1880,8 +1796,6 @@ thetasim <- salwinbugs3$sims.list$theta
 breaks <- c(min(apply(thetasim, c(2, 3), mean)) - 0.001, quantile(apply(thetasim, c(2, 3), mean), probs = seq(1/15, 14/15, length.out = 14)), max(apply(thetasim, c(2, 3), mean)))
 breaks <- c(-3.75, -0.75, -0.25, -0.20, -0.15, -0.10, -0.05, -0.02, 
             0.02, 0.05, 0.10, 0.15, 0.20, 0.25, 0.75, 3.75)
-breaks <- c(-4.55, -1.0, -0.50, -0.30, -0.20, -0.10, -0.05, -0.02,
-            0.02, 0.05, 0.10, 0.20, 0.30, 0.50, 1.0, 4.55)
 
 for (Var in 1:NVars) {
   carto_muni@data[[paste0(colnames(y)[Var], "thetamean")]] <- cut(apply(thetasim[, , Var], 2, mean), breaks = breaks, include.lowest = FALSE, right = TRUE)
@@ -1890,16 +1804,11 @@ for (Var in 1:NVars) {
                                                                                              "(-0.15, -0.10]", "(-0.10, -0.05]", "(-0.05, -0.02]", "(-0.02, 0.02]",
                                                                                              "(0.02, 0.05]", "(0.05, 0.10]", "(0.10, 0.15]", "(0.15, 0.20]",
                                                                                              "(0.20, 0.25]", "(0.25, 0.75]", "> 0.75"))
-  # levels(carto_muni@data[[paste0(colnames(y)[Var], "thetamean")]]) <- gsub("<=", "\u2264", c("<= -1.00", "(-1.00, -0.50]", "(-0.50, -0.30]", "(-0.30, -0.20]", 
-  #                                                                                            "(-0.20, -0.10]", "(-0.10, -0.05]", "(-0.05, -0.02]", "(-0.02, 0.02]", 
-  #                                                                                            "(0.02, 0.05]", "(0.05, 0.10]", "(0.10, 0.20]", "(0.20, 0.30]",
-  #                                                                                            "(0.30, 0.50]", "(0.50, 1.00]", "> 1.00"))
 }
 
 spplot(carto_muni,
        c("P8_7thetamean", "P8_8thetamean", "P8_9thetamean", "P8_10thetamean", "P8_11thetamean", "P8_12thetamean",
          "P8_1thetamean", "P8_2thetamean", "P8_3thetamean", "P8_4thetamean", "P8_5thetamean", "P8_6thetamean"),
-       # colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "thetamean")]),
        names.attr = c(labels[7:12], labels[1:6]),
        col.regions = colorRampPalette(brewer.pal(7,'BrBG'))(15),
        cuts = 14,
@@ -1964,10 +1873,10 @@ spplot(carto_muni,
        names.attr = all_labels,
        col.regions = colorRampPalette(brewer.pal(7,'RdYlGn'))(15)[15:1],
        par.settings = list(axis.line = list(col = 'transparent')),
-       strip = strip.custom(par.strip.text = list(cex = 0.6)),
+       strip = strip.custom(par.strip.text = list(cex = 0.95)),
        col = "black",
        at = seq(0, limit, length.out = 16),
-       lwd = 0.10,
+       lwd = 0.025,
        layout = c(NSel, NMods))
 
 # Cartography of the Region of Valencia
@@ -2010,9 +1919,6 @@ spplot(carto_muni,
 salwinbugs <- salwinbugs3
 thetasim <- salwinbugs$sims.list$theta
 thetamean <- apply(thetasim, 2:3, mean)
-# Eigen <- eigen(Corr.mean)$vectors[, 1:2]
-# Eigen <- cbind(eigen(cor(thetamean))$vectors[, 1], -eigen(cor(thetamean))$vectors[, 2])
-# thetaComp <- thetamean %*% Eigen
 acp <- princomp(thetamean, cor = TRUE)
 # summary(acp)
 acp$loadings[, 1:3]
@@ -2024,24 +1930,14 @@ carto_muni@data$ACP1 <- thetaComp[, 1]
 
 # Fiveteen equal-probability intervals
 breaks <- c(min(carto_muni@data$ACP1) - 0.001, quantile(carto_muni@data$ACP1, probs = seq(1/15, 14/15, length.out = 14)), max(carto_muni@data$ACP1))
-# breaks <- c(-4.55, -1.20, -1.00, -0.85, -0.75, -0.70, -0.65, -0.60, 
-#             0.60, 0.65, 0.70, 0.75, 0.85, 1.00, 1.20, 4.55)
+breaks <- c(-17.50, -3.00, -2.50, -2.00, -1.50, -1.00, -0.50, -0.25, 
+            0.25, 0.50, 1.00, 1.50, 2.00, 2.50, 3.00, 17.50)
 
 carto_muni@data$ACP1 <- cut(carto_muni@data$ACP1, breaks = breaks, include.lowest = FALSE, right = TRUE)
 levels(carto_muni@data$ACP1) <- c("Worse S1", "Better S2, ", "  ", "   ", "    ", 
                                   "     ", "      ", "       ", "        ",
                                   "         ", "          ", "           ",
                                   "               ", "Worse S2", "Better S1, ")
-
-spplot(carto_muni,
-       c("ACP1"),
-       main = expression("1"^st*" principal component"),
-       col.regions = colorRampPalette(brewer.pal(7,'Blues'))(15),
-       cuts = 14,
-       par.settings = list(axis.line = list(col = 'transparent')),
-       strip = strip.custom(par.strip.text = list(cex = 0.6)),
-       col = "black",
-       lwd = 0.10)
 
 carto_muni@data$ACP2 <- thetaComp[, 2]
 
@@ -2054,43 +1950,31 @@ levels(carto_muni@data$ACP2) <- c("Worse MH", " ", "  ", "   ", "    ",
                                   "         ", "          ", "           ",
                                   "               ", "                ", "Better MH")
 
-spplot(carto_muni,
-       c("ACP2"),
-       main = expression("2"^nd*" principal component"),
-       col.regions = colorRampPalette(brewer.pal(7,'Blues'))(15),
-       cuts = 14,
-       par.settings = list(axis.line = list(col = 'transparent')),
-       strip = strip.custom(par.strip.text = list(cex = 0.6)),
-       col = "black",
-       lwd = 0.10)
-
 grid.arrange(spplot(carto_muni,
                     c("ACP1"),
-                    # main = expression("(a) 1"^st*" principal component                 "),
-                    main = expression("(a)                                             "),
-                    col.regions = colorRampPalette(brewer.pal(7,'Blues'))(15),
+                    main = expression("(A)                                                                          "),
+                    col.regions = colorRampPalette(brewer.pal(7,'RdYlBu'))(15),
                     cuts = 14,
                     par.settings = list(axis.line = list(col = 'transparent')),
-                    strip = strip.custom(par.strip.text = list(cex = 0.6)),
+                    strip = strip.custom(par.strip.text = list(cex = 0.95)),
                     col = "black",
-                    lwd = 0.10),
+                    lwd = 0.025),
              spplot(carto_muni,
                     c("ACP2"),
-                    # main = expression("(b) 2"^nd*" principal component     "),
-                    main = expression("(b)                                 "),
+                    main = expression("(B)                                                                          "),
                     col.regions = colorRampPalette(brewer.pal(7,'Blues'))(15),
                     cuts = 14,
                     par.settings = list(axis.line = list(col = 'transparent')),
-                    strip = strip.custom(par.strip.text = list(cex = 0.6)),
+                    strip = strip.custom(par.strip.text = list(cex = 0.95)),
                     col = "black",
-                    lwd = 0.10),
+                    lwd = 0.025),
              ncol = 2)
 
 rm(list = c("thetasim", "stepsim"))
 
 #### Some comparisons ####
 
-Var <- 2
+Var <- 5
 MuniLevels <- carto_muni@data$NOMBRE_MUNI
 target <- 1:100
 
@@ -2124,89 +2008,6 @@ comp_plot_muni <- ggplot() +
   scale_x_continuous(limits = c(-2.75, 2.75), breaks = seq(-3, 3, by = 0.5)) + 
   theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, vjust = 0.3)) + ggtitle("Comparative")
 comp_plot_muni
-
-#### Posterior correlation matrices ####
-
-thetasim <- salwinbugs3$sims.list$theta
-thetamean <- apply(thetasim, 2:3, mean)
-
-Corr.mean <- cor(thetamean); rownames(Corr.mean) <- labels;
-colnames(Corr.mean) <- labels
-
-# orden <- corrMatOrder(as.matrix(Corr.mean), order = "hclust", hclust.method = "ward.D2")
-orden <- c(1, 3, 4, 7, 8, 12, 2, 5, 6, 9, 10, 11)
-Corr.mean.orden <- as.matrix(Corr.mean)
-Corr.mean.orden <- Corr.mean.orden[orden, orden]
-
-corrplot(as.matrix(Corr.mean.orden),
-         type = "lower", method = "ellipse",
-         pch.cex = 1.5, pch.col = "grey20",
-         addCoef.col = "black", number.cex = 0.8, diag = FALSE)
-
-SurveyMapping.Corr.Muni <- function(thetasim) {
-  
-  Corr <- array(dim = c(n.sims, NVars, NVars))
-  
-  for (sim in 1:n.sims) {
-    Corr[sim, , ] <- cor(thetasim[sim, , ])
-  }
-  return(Corr)
-}
-
-Corr <- SurveyMapping.Corr.Muni(thetasim = thetasim)
-
-Corr.mean <- matrix(ncol = NVars, nrow = NVars)
-Corr.quantileL <- matrix(ncol = NVars, nrow = NVars)
-Corr.quantileU <- matrix(ncol = NVars, nrow = NVars)
-for (Var1 in 1:NVars) {
-  for (Var2 in 1:NVars) {
-    Corr.mean[Var1, Var2] <- mean(Corr[, Var1, Var2])
-    Corr.quantileL[Var1, Var2] <- quantile(Corr[, Var1, Var2], probs = 0.025)
-    Corr.quantileU[Var1, Var2] <- quantile(Corr[, Var1, Var2], probs = 0.975)
-  }
-}
-
-rm(Corr)
-
-eigen(Corr.mean)
-eigen(Corr.mean)$values[1]/NVars
-eigen(Corr.mean)$values[2]/NVars
-
-Corr.mean <- data.frame(Corr.mean); rownames(Corr.mean) <- labels;
-colnames(Corr.mean) <- labels
-
-# orden <- corrMatOrder(as.matrix(Corr.mean), order = "hclust", hclust.method = "ward.D2")
-orden <- c(1, 3, 4, 7, 8, 12, 2, 5, 6, 9, 10, 11)
-Corr.mean.orden <- as.matrix(Corr.mean)
-Corr.mean.orden <- Corr.mean.orden[orden, orden]
-
-Corr.quantileL <- data.frame(Corr.quantileL); rownames(Corr.quantileL) <- labels;
-colnames(Corr.quantileL) <- labels
-
-Corr.quantileL.orden <- as.matrix(Corr.quantileL)
-Corr.quantileL.orden <- Corr.quantileL.orden[orden, orden]
-
-Corr.quantileU <- data.frame(Corr.quantileU); rownames(Corr.quantileU) <- labels;
-colnames(Corr.quantileU) <- labels
-
-Corr.quantileU.orden <- as.matrix(Corr.quantileU)
-Corr.quantileU.orden <- Corr.quantileU.orden[orden, orden]
-
-Relevance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden < 0), ncol = NVars, nrow = NVars, byrow = FALSE)
-colnames(Relevance) <- rownames(Relevance) <-  colnames(Corr.mean.orden)
-Relevance <- (Relevance - 1) * (-1)
-for (Var in 1:NVars) { Relevance[Var, Var] <- 1 }
-
-corrplot(as.matrix(Corr.mean.orden),
-         type = "lower", method = "ellipse",
-         p.mat = Relevance, sig.level = 0.05, insig = "label_sig",
-         pch.cex = 1.5, pch.col = "grey20",
-         addCoef.col = "black", number.cex = 0.8, diag = FALSE)
-
-corrplot(as.matrix(Corr.mean.orden),
-         type = "lower", method = "ellipse",
-         p.mat = Relevance, sig.level = 0.05, insig = "blank",
-         addCoef.col = "black", number.cex = 0.8, diag = FALSE)
 
 #### Model assessment for Model-Indep ####
 
@@ -2393,7 +2194,7 @@ for (Muni in 1:length(Munis)) {
   validation[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels, Muni = Munis[Muni])
 }
 
-saveRDS(validation, file = file.path("results", "multi", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
+# saveRDS(validation, file = file.path("results", "multi", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
 
 #### WAIC for Model-Indep ####
 
@@ -2405,8 +2206,8 @@ modelWAIC <- nimbleModel(code = modelCode,
                                                     dim = c(NSex, NAges, NVars, NCats)),
                                       rho = runif(NVars),
                                       theta = matrix(rnorm(NMuni * NVars, sd = 0.1), nrow = NMuni, ncol = NVars),
-                                      sd.theta = runif(NVars))
-                         , calculate = FALSE)
+                                      sd.theta = runif(NVars)), 
+                         calculate = FALSE)
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
 samples <- do.call(rbind, salnimble)           # single matrix of samples
 waic <- calculateWAIC(samples, modelWAIC)
@@ -2430,8 +2231,8 @@ modelWAIC <- nimbleModel(code = modelCode,
                                       rho = runif(NVars),
                                       sub.Muni = matrix(rnorm(NMuni * NVars, sd = 0.01), nrow = NMuni, ncol = NVars),
                                       M.Muni = matrix(rnorm(NVars * NVars, sd = 0.5), ncol = NVars, nrow = NVars),
-                                      sd.M.Muni = runif(1, min = 0.2, max = 0.8))
-                         , calculate = FALSE)
+                                      sd.M.Muni = runif(1, min = 0.2, max = 0.8)), 
+                         calculate = FALSE)
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
 samples <- do.call(rbind, salnimble)           # single matrix of samples
 waic <- calculateWAIC(samples, modelWAIC)
@@ -2458,13 +2259,12 @@ modelWAIC <- nimbleModel(code = modelCode,
                                       sd.M.Resp = runif(1, min = 0.2, max = 0.8),
                                       sub.Muni = matrix(rnorm(NMuni * NVars, sd = 0.01), nrow = NMuni, ncol = NVars),
                                       M.Muni = matrix(rnorm(NVars * NVars, sd = 0.5), ncol = NVars, nrow = NVars),
-                                      sd.M.Muni = runif(1, min = 0.2, max = 0.8))
-                         , calculate = FALSE)
+                                      sd.M.Muni = runif(1, min = 0.2, max = 0.8)), 
+                         calculate = FALSE)
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
 samples <- do.call(rbind, salnimble)           # single matrix of samples
 waic <- calculateWAIC(samples, modelWAIC)
 
-# -
 # nimbleList object of type waicNimbleList
 # Field "WAIC":
 #   [1] 103170.1
@@ -2472,12 +2272,3 @@ waic <- calculateWAIC(samples, modelWAIC)
 #   [1] -36079.51
 # Field "pWAIC":
 #   [1] 15505.53
-
-# df
-# nimbleList object of type waicNimbleList
-# Field "WAIC":
-#   [1] 103091.1
-# Field "lppd":
-#   [1] -35990.14
-# Field "pWAIC":
-#   [1] 15555.4
