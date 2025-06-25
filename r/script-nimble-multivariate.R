@@ -1405,10 +1405,6 @@ MCMCtrace(object = salnimble3,
                      "psi[1000, 1]", "psi[1000, 2]", "psi[1000, 3]",
                      "psi[5485, 1]", "psi[5485, 2]", "psi[5485, 3]"))
 
-#### Removing salnimbles ####
-
-rm(list = c("salnimble1", "salnimble2", "salnimble3"))
-
 #### Spatial correlation matrix for Model-Indep ####
 
 salwinbugs <- salwinbugs1
@@ -2256,7 +2252,7 @@ modelWAIC <- nimbleModel(code = modelCode,
                                       sd.theta = runif(NVars)), 
                          calculate = FALSE)
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
-samples <- do.call(rbind, salnimble)           # single matrix of samples
+samples <- do.call(rbind, salnimble1)           # single matrix of samples
 waic <- calculateWAIC(samples, modelWAIC)
 
 # nimbleList object of type waicNimbleList
@@ -2281,7 +2277,7 @@ modelWAIC <- nimbleModel(code = modelCode,
                                       sd.M.Muni = runif(1, min = 0.2, max = 0.8)), 
                          calculate = FALSE)
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
-samples <- do.call(rbind, salnimble)           # single matrix of samples
+samples <- do.call(rbind, salnimble2)           # single matrix of samples
 waic <- calculateWAIC(samples, modelWAIC)
 
 # nimbleList object of type waicNimbleList
@@ -2309,7 +2305,7 @@ modelWAIC <- nimbleModel(code = modelCode,
                                       sd.M.Muni = runif(1, min = 0.2, max = 0.8)), 
                          calculate = FALSE)
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
-samples <- do.call(rbind, salnimble)           # single matrix of samples
+samples <- do.call(rbind, salnimble3)           # single matrix of samples
 waic <- calculateWAIC(samples, modelWAIC)
 
 # nimbleList object of type waicNimbleList
