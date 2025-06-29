@@ -4,7 +4,6 @@ author: |
  | \Large Beltrán-Sánchez, MA$^1$; Martínez-Beneito, MA$^2$; Corberán-Vallet, A$^3$
  | $^1$angel.beltran@uv.es; $^2$miguel.a.martinez@uv.es; $^3$ana.corberan@uv.es
  | Department of Statistics and Operations Research, University of Valencia, Spain
-date: "June 29, 2025"
 output:
   pdf_document:
     keep_tex: true
