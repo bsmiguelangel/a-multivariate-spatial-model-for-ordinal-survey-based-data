@@ -5,7 +5,8 @@
 pacman::p_load(foreign, readxl, faraway, spdep, sp, ggplot2, 
                RColorBrewer, graphics, ggpubr, leaflet, nimble, 
                ggmcmc, extraDistr, parallel, MCMCvis, gridExtra, 
-               corrplot, ggcorrplot, readr, lattice, install = FALSE)
+               corrplot, ggcorrplot, readr, lattice, 
+               install = FALSE)
 
 #### Data loading ####
 
