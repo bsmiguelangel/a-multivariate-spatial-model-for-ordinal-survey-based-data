@@ -1,4 +1,4 @@
-# A multivariate framework for analyzing spatial ordinal survey-based data
+# A multivariate framework for analyzing spatial ordinal survey-based data / A multivariate spatial model for ordinal survey-based data
 
 Paper under review.
 
