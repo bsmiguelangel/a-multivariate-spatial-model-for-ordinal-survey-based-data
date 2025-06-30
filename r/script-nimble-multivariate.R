@@ -1014,7 +1014,7 @@ stopCluster(this_cluster)
 #### Results ####
 
 n.chains <- 5
-labels <- colnames(y)
+labels <- c("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10", "Q11", "Q12")
 salnimble1 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
 salnimble2 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
 salnimble3 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
@@ -1747,7 +1747,7 @@ breaks <- c(min(apply(thetasim, 2:4, mean)) - 0.001, quantile(apply(thetasim, 2:
 breaks <- c(-2.20, -0.5, -0.35, -0.25, -0.20, -0.15, -0.10, -0.05, 
             0.05, 0.10, 0.15, 0.20, 0.25, 0.35, 0.5, 2.20)
 
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
+mod_labels <- c("Indep", "Corr", "CorrIRE")
 for (Mod in 1:NMods) {
   for (Sel in 1:NSel) {
     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]] <- cut(apply(thetasim[, , Sel, Mod], 2, mean), breaks = breaks, include.lowest = FALSE, right = TRUE)
@@ -1759,7 +1759,7 @@ for (Mod in 1:NMods) {
   }
 }
 
-mod_labels <- c("CorrandIRE", "Corr", "Indep")
+mod_labels <- c("CorrIRE", "Corr", "Indep")
 all_labels <- matrix(nrow = NSel, ncol = NMods)
 for (Sel in 1:NSel) {
   for (Mod in 1:NMods) {
@@ -1769,7 +1769,7 @@ for (Sel in 1:NSel) {
 all_labels <- as.character(all_labels)
 
 spplot(carto_muni,
-       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrIRE")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
        names.attr = all_labels,
@@ -1801,7 +1801,7 @@ breaks <- c(min(apply(thetasim, 2:4, mean)) - 0.001, quantile(apply(thetasim, 2:
 breaks <- c(-3.75, -0.75, -0.25, -0.20, -0.15, -0.10, -0.05, -0.02, 
             0.02, 0.05, 0.10, 0.15, 0.20, 0.25, 0.75, 3.75)
 
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
+mod_labels <- c("Indep", "Corr", "CorrIRE")
 for (Mod in 1:NMods) {
   for (Sel in 1:NSel) {
     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]] <- cut(apply(thetasim[, , Sel, Mod], 2, mean), breaks = breaks, include.lowest = FALSE, right = TRUE)
@@ -1813,7 +1813,7 @@ for (Mod in 1:NMods) {
   }
 }
 
-mod_labels <- c("CorrandIRE", "Corr", "Indep")
+mod_labels <- c("CorrIRE", "Corr", "Indep")
 all_labels <- matrix(nrow = NSel, ncol = NMods)
 for (Sel in 1:NSel) {
   for (Mod in 1:NMods) {
@@ -1823,7 +1823,7 @@ for (Sel in 1:NSel) {
 all_labels <- as.character(all_labels)
 
 spplot(carto_muni,
-       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrIRE")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
        names.attr = all_labels,
@@ -1843,7 +1843,7 @@ spplot(carto_muni,
 load(file.path("data", "CartoCV.Rdata"))
 
 NMods <- 3
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
+mod_labels <- c("Indep", "Corr", "CorrIRE")
 thetasim <- array(dim = c(n.sims, NMuni, NVars, NMods))
 thetasim[, , , 1] <- salwinbugs1$sims.list$theta
 thetasim[, , , 2] <- salwinbugs2$sims.list$theta
@@ -1865,7 +1865,7 @@ selection <- 1:4
 NSel <- length(selection)
 stepsim <- stepsim[, , selection, ]
 
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
+mod_labels <- c("Indep", "Corr", "CorrIRE")
 for (Mod in 1:NMods) {
   for (Sel in 1:NSel) {
     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "probmean", mod_labels[Mod])]] <- apply(stepsim[, , Sel, Mod], 2, mean)
@@ -1876,7 +1876,7 @@ kk <- unlist(carto_muni@data[, startsWith(colnames(carto_muni@data), "P8_")])
 
 limit <- max(kk) + 0.01
 
-mod_labels <- c("CorrandIRE", "Corr", "Indep")
+mod_labels <- c("CorrIRE", "Corr", "Indep")
 all_labels <- matrix(nrow = NSel, ncol = NMods)
 for (Sel in 1:NSel) {
   for (Mod in 1:NMods) {
@@ -1886,7 +1886,7 @@ for (Sel in 1:NSel) {
 all_labels <- as.character(all_labels)
 
 spplot(carto_muni,
-       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrIRE")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
        names.attr = all_labels,
@@ -1902,7 +1902,7 @@ spplot(carto_muni,
 load(file.path("data", "CartoCV.Rdata"))
 
 NMods <- 3
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
+mod_labels <- c("Indep", "Corr", "CorrIRE")
 thetasim <- array(dim = c(n.sims, NMuni, NVars, NMods))
 thetasim[, , , 1] <- salwinbugs1$sims.list$theta
 thetasim[, , , 2] <- salwinbugs2$sims.list$theta
@@ -1924,7 +1924,7 @@ selection <- 1:NVars
 NSel <- length(selection)
 stepsim <- stepsim[, , selection, ]
 
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
+mod_labels <- c("Indep", "Corr", "CorrIRE")
 for (Mod in 1:NMods) {
   for (Sel in 1:NSel) {
     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "probmean", mod_labels[Mod])]] <- apply(stepsim[, , Sel, Mod], 2, mean)
@@ -1935,7 +1935,7 @@ kk <- unlist(carto_muni@data[, startsWith(colnames(carto_muni@data), "P8_")])
 
 limit <- max(kk) + 0.01
 
-mod_labels <- c("CorrandIRE", "Corr", "Indep")
+mod_labels <- c("CorrIRE", "Corr", "Indep")
 all_labels <- matrix(nrow = NSel, ncol = NMods)
 for (Sel in 1:NSel) {
   for (Mod in 1:NMods) {
@@ -1945,7 +1945,7 @@ for (Sel in 1:NSel) {
 all_labels <- as.character(all_labels)
 
 spplot(carto_muni,
-       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrIRE")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
        names.attr = all_labels,
@@ -1992,6 +1992,7 @@ levels(carto_muni@data$ACP2) <- c("Worse MH", " ", "  ", "   ", "    ",
                                   "     ", "      ", "       ", "        ",
                                   "         ", "          ", "           ",
                                   "               ", "                ", "Better MH")
+rm(list = c("thetasim", "stepsim"))
 
 grid.arrange(spplot(carto_muni,
                     c("ACP1"),
@@ -2013,8 +2014,6 @@ grid.arrange(spplot(carto_muni,
                     lwd = 0.025),
              ncol = 2)
 
-rm(list = c("thetasim", "stepsim"))
-
 #### Some comparisons ####
 
 Var <- 5
@@ -2027,9 +2026,9 @@ ComparativeMuni <- data.frame("IndepMean" = apply(salwinbugs1$sims.list$theta[, 
                               "CorrMean" = apply(salwinbugs2$sims.list$theta[, , Var], 2, mean)[target], 
                               "CorrPIlower" = apply(salwinbugs2$sims.list$theta[, , Var], 2, quantile, prob = 0.025)[target],
                               "CorrPIupper" = apply(salwinbugs2$sims.list$theta[, , Var], 2, quantile, prob = 0.975)[target],
-                              "CorrandIREMean" = apply(salwinbugs3$sims.list$theta[, , Var], 2, mean)[target], 
-                              "CorrandIREPIlower" = apply(salwinbugs3$sims.list$theta[, , Var], 2, quantile, prob = 0.025)[target],
-                              "CorrandIREPIupper" = apply(salwinbugs3$sims.list$theta[, , Var], 2, quantile, prob = 0.975)[target],
+                              "CorrIREMean" = apply(salwinbugs3$sims.list$theta[, , Var], 2, mean)[target], 
+                              "CorrIREPIlower" = apply(salwinbugs3$sims.list$theta[, , Var], 2, quantile, prob = 0.025)[target],
+                              "CorrIREPIupper" = apply(salwinbugs3$sims.list$theta[, , Var], 2, quantile, prob = 0.975)[target],
                               "Muni" = target)
 
 apply(ComparativeMuni[, 1:9], 2, min)
@@ -2038,7 +2037,7 @@ comp_plot_muni <- ggplot() +
   ylab("Municipality") + xlab("Spatial effect") + theme_bw() + coord_flip() + 
   geom_point(data = ComparativeMuni, aes(y = Muni, x = IndepMean, colour = "Indep"), size = 1.5) +
   geom_point(data = ComparativeMuni, aes(y = Muni, x = CorrMean, colour = "Corr"), size = 1.5) +
-  geom_point(data = ComparativeMuni, aes(y = Muni, x = CorrandIREMean, colour = "CorrandIRE"), size = 1.5) +
+  geom_point(data = ComparativeMuni, aes(y = Muni, x = CorrIREMean, colour = "CorrIRE"), size = 1.5) +
   geom_errorbar(data = ComparativeMuni, aes(y = Muni,
                                             xmin = IndepPIlower,
                                             xmax = IndepPIupper), width = 0, color = 2) +
@@ -2046,8 +2045,8 @@ comp_plot_muni <- ggplot() +
                                             xmin = CorrPIlower,
                                             xmax = CorrPIupper), width = 0, color = 3) +
   geom_errorbar(data = ComparativeMuni, aes(y = Muni,
-                                            xmin = CorrandIREPIlower,
-                                            xmax = CorrandIREPIupper), width = 0, color = 4) + 
+                                            xmin = CorrIREPIlower,
+                                            xmax = CorrIREPIupper), width = 0, color = 4) + 
   scale_x_continuous(limits = c(-2.75, 2.75), breaks = seq(-3, 3, by = 0.5)) + 
   theme(legend.position = "bottom", axis.text.x = element_text(angle = 90, vjust = 0.3)) + ggtitle("Comparative")
 comp_plot_muni
