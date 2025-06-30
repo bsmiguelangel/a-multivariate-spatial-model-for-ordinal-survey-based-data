@@ -11,7 +11,7 @@ output:
       in_header: header-si.tex
 ---
 
-```{r setup, include=FALSE, fig.align='center', out.width='75%'}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -1765,7 +1765,7 @@ rm(list = c("thetasim", "stepsim"))
 ```{r}
 grid.arrange(spplot(carto_muni,
                     c("ACP1"),
-                    main = expression("(A)                                                                          "),
+                    main = expression("(A)                          "),
                     col.regions = colorRampPalette(brewer.pal(7,'RdYlBu'))(15),
                     cuts = 14,
                     par.settings = list(axis.line = list(col = 'transparent')),
@@ -1774,7 +1774,7 @@ grid.arrange(spplot(carto_muni,
                     lwd = 0.025),
              spplot(carto_muni,
                     c("ACP2"),
-                    main = expression("(B)                                                                          "),
+                    main = expression("(B)                          "),
                     col.regions = colorRampPalette(brewer.pal(7,'Blues'))(15),
                     cuts = 14,
                     par.settings = list(axis.line = list(col = 'transparent')),
