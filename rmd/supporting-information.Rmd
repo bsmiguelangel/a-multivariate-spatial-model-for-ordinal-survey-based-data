@@ -11,7 +11,7 @@ output:
       in_header: header-si.tex
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, fig.align='center', out.width='75%'}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -1051,7 +1051,7 @@ samples <- do.call(rbind, salnimble3)           # single matrix of samples
 
 ```{r}
 n.chains <- 5
-labels <- colnames(y)
+labels <- c("Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10", "Q11", "Q12")
 ```
 
 ### Convergence assessment for Model-Indep
@@ -1453,7 +1453,7 @@ breaks <- c(min(apply(thetasim, 2:4, mean)) - 0.001, quantile(apply(thetasim, 2:
 breaks <- c(-2.20, -0.5, -0.35, -0.25, -0.20, -0.15, -0.10, -0.05, 
             0.05, 0.10, 0.15, 0.20, 0.25, 0.35, 0.5, 2.20)
 
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
+mod_labels <- c("Indep", "Corr", "CorrIRE")
 for (Mod in 1:NMods) {
   for (Sel in 1:NSel) {
     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "thetamean", mod_labels[Mod])]] <- cut(apply(thetasim[, , Sel, Mod], 2, mean), breaks = breaks, include.lowest = FALSE, right = TRUE)
@@ -1465,7 +1465,7 @@ for (Mod in 1:NMods) {
   }
 }
 
-mod_labels <- c("CorrandIRE", "Corr", "Indep")
+mod_labels <- c("CorrIRE", "Corr", "Indep")
 all_labels <- matrix(nrow = NSel, ncol = NMods)
 for (Sel in 1:NSel) {
   for (Mod in 1:NMods) {
@@ -1473,9 +1473,11 @@ for (Sel in 1:NSel) {
   }
 }
 all_labels <- as.character(all_labels)
+```
 
+```{r}
 spplot(carto_muni,
-       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrIRE")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
        names.attr = all_labels,
@@ -1497,7 +1499,7 @@ spplot(carto_muni,
 load(file.path("..", "data", "CartoCV.Rdata"))
 
 NMods <- 3
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
+mod_labels <- c("Indep", "Corr", "CorrIRE")
 thetasim <- array(dim = c(n.sims, NMuni, NVars, NMods))
 thetasim[, , , 1] <- salwinbugs1$sims.list$theta
 thetasim[, , , 2] <- salwinbugs2$sims.list$theta
@@ -1519,7 +1521,7 @@ selection <- 1:4
 NSel <- length(selection)
 stepsim <- stepsim[, , selection, ]
 
-mod_labels <- c("Indep", "Corr", "CorrandIRE")
+mod_labels <- c("Indep", "Corr", "CorrIRE")
 for (Mod in 1:NMods) {
   for (Sel in 1:NSel) {
     carto_muni@data[[paste0(colnames(y)[selection[Sel]], "probmean", mod_labels[Mod])]] <- apply(stepsim[, , Sel, Mod], 2, mean)
@@ -1530,7 +1532,7 @@ kk <- unlist(carto_muni@data[, startsWith(colnames(carto_muni@data), "P8_")])
 
 limit <- max(kk) + 0.01
 
-mod_labels <- c("CorrandIRE", "Corr", "Indep")
+mod_labels <- c("CorrIRE", "Corr", "Indep")
 all_labels <- matrix(nrow = NSel, ncol = NMods)
 for (Sel in 1:NSel) {
   for (Mod in 1:NMods) {
@@ -1538,9 +1540,11 @@ for (Sel in 1:NSel) {
   }
 }
 all_labels <- as.character(all_labels)
+```
 
+```{r}
 spplot(carto_muni,
-       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrandIRE")]),
+       c(colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "CorrIRE")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Corr")]),
          colnames(carto_muni@data[, endsWith(colnames(carto_muni@data), "Indep")])),
        names.attr = all_labels,
@@ -1619,7 +1623,9 @@ Relevance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden <
 colnames(Relevance) <- rownames(Relevance) <-  colnames(Corr.mean.orden)
 Relevance <- (Relevance - 1) * (-1)
 for (Var in 1:NVars) { Relevance[Var, Var] <- 1 }
+```
 
+```{r}
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
          type = "lower", method = "ellipse", 
@@ -1700,7 +1706,9 @@ Relevance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden <
 colnames(Relevance) <- rownames(Relevance) <-  colnames(Corr.mean.orden)
 Relevance <- (Relevance - 1) * (-1)
 for (Var in 1:NVars) { Relevance[Var, Var] <- 1 }
+```
 
+```{r}
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
          type = "lower", method = "ellipse", 
@@ -1751,10 +1759,13 @@ levels(carto_muni@data$ACP2) <- c("Worse MH", " ", "  ", "   ", "    ",
                                   "     ", "      ", "       ", "        ",
                                   "         ", "          ", "           ",
                                   "               ", "                ", "Better MH")
+rm(list = c("thetasim", "stepsim"))
+```
 
+```{r}
 grid.arrange(spplot(carto_muni,
                     c("ACP1"),
-                    main = expression("(A)          "),
+                    main = expression("(A)                                                                          "),
                     col.regions = colorRampPalette(brewer.pal(7,'RdYlBu'))(15),
                     cuts = 14,
                     par.settings = list(axis.line = list(col = 'transparent')),
@@ -1763,7 +1774,7 @@ grid.arrange(spplot(carto_muni,
                     lwd = 0.025),
              spplot(carto_muni,
                     c("ACP2"),
-                    main = expression("(B)          "),
+                    main = expression("(B)                                                                          "),
                     col.regions = colorRampPalette(brewer.pal(7,'Blues'))(15),
                     cuts = 14,
                     par.settings = list(axis.line = list(col = 'transparent')),
@@ -1771,8 +1782,6 @@ grid.arrange(spplot(carto_muni,
                     col = "black",
                     lwd = 0.025),
              ncol = 2)
-
-rm(list = c("thetasim", "stepsim"))
 ```
 
 ### Table 2: Model assessment
