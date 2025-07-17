@@ -1,5 +1,5 @@
 ---
-title: 'Supporting information for "A multivariate framework for analyzing spatial ordinal survey-based data / A multivariate spatial model for ordinal survey-based data"'
+title: 'Supporting information for "A multivariate spatial model for ordinal survey-based data"'
 author: |
  | \Large Beltrán-Sánchez, MA$^1$; Martínez-Beneito, MA$^2$; Corberán-Vallet, A$^3$
  | $^1$angel.beltran@uv.es; $^2$miguel.a.martinez@uv.es; $^3$ana.corberan@uv.es
