@@ -1964,9 +1964,9 @@ thetasim <- salwinbugs$sims.list$theta
 thetamean <- apply(thetasim, 2:3, mean)
 acp <- princomp(thetamean, cor = TRUE)
 # summary(acp)
-acp$loadings[, 1:3]
+acp$loadings[, 1:2]
 # plot(acp, type = "l")
-thetaComp <- acp$scores[, 1:3]
+thetaComp <- acp$scores[, 1:2]
 cor(thetaComp)
 
 carto_muni@data$ACP1 <- thetaComp[, 1]
@@ -1988,10 +1988,13 @@ carto_muni@data$ACP2 <- thetaComp[, 2]
 breaks <- c(min(carto_muni@data$ACP2) - 0.001, quantile(carto_muni@data$ACP2, probs = seq(1/15, 14/15, length.out = 14)), max(carto_muni@data$ACP2))
 
 carto_muni@data$ACP2 <- cut(carto_muni@data$ACP2, breaks = breaks, include.lowest = FALSE, right = TRUE)
-levels(carto_muni@data$ACP2) <- c("Worse MH", " ", "  ", "   ", "    ", 
+# We order the factor levels to match the colors appropriately
+carto_muni@data$ACP2 <- factor(carto_muni@data$ACP2, levels =
+                                 rev(levels(carto_muni@data$ACP2)))
+levels(carto_muni@data$ACP2) <- c("Better MH", " ", "  ", "   ", "    ", 
                                   "     ", "      ", "       ", "        ",
                                   "         ", "          ", "           ",
-                                  "               ", "                ", "Better MH")
+                                  "               ", "                ", "Worse MH")
 rm(list = c("thetasim", "stepsim"))
 
 grid.arrange(spplot(carto_muni,
@@ -2006,7 +2009,7 @@ grid.arrange(spplot(carto_muni,
              spplot(carto_muni,
                     c("ACP2"),
                     main = expression("(B)                                                                          "),
-                    col.regions = colorRampPalette(brewer.pal(7,'Blues'))(15),
+                    col.regions = colorRampPalette(brewer.pal(7,'Oranges'))(15),
                     cuts = 14,
                     par.settings = list(axis.line = list(col = 'transparent')),
                     strip = strip.custom(par.strip.text = list(cex = 0.95)),
