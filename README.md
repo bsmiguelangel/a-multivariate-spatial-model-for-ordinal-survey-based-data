@@ -1,6 +1,6 @@
 # A multivariate spatial model for ordinal survey-based data
 
-Paper under review.
+Paper under review: https://arxiv.org/abs/2507.20944
 
 `R` code used to run the entire case study. The implementation is provided using the `NIMBLE` Bayesian inference MCMC package. The result files from the models are not provided, as they exceed 25MB.
 
