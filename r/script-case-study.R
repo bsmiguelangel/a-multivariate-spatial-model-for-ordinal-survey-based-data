@@ -1990,29 +1990,33 @@ SurveyMapping.Validation <- function(prlevels, Muni) {
 # Six municipalities with the largest population in the Region of Valencia
 Munis <- order(apply(sample, 1, sum), decreasing = TRUE)[1:6]
 
-validation1 <- list()
-for (Muni in 1:length(Munis)) {
-  set.seed(9747783)
-  validation1[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels1, Muni = Munis[Muni])
-}
+# validation1 <- list()
+# for (Muni in 1:length(Munis)) {
+#   set.seed(9747783)
+#   validation1[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels1, Muni = Munis[Muni])
+# }
 
 # saveRDS(validation1, file = file.path("results", "multi-2022-nimble-MH-indep-assessment.rds"))
 
-validation2 <- list()
-for (Muni in 1:length(Munis)) {
-  set.seed(9747783)
-  validation2[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels2, Muni = Munis[Muni])
-}
+# validation2 <- list()
+# for (Muni in 1:length(Munis)) {
+#   set.seed(9747783)
+#   validation2[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels2, Muni = Munis[Muni])
+# }
 
 # saveRDS(validation2, file = file.path("results", "multi-2022-nimble-MH-corr-assessment.rds"))
 
-validation3 <- list()
-for (Muni in 1:length(Munis)) {
-  set.seed(9747783)
-  validation3[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels3, Muni = Munis[Muni])
-}
+# validation3 <- list()
+# for (Muni in 1:length(Munis)) {
+#   set.seed(9747783)
+#   validation3[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels3, Muni = Munis[Muni])
+# }
 
 # saveRDS(validation3, file = file.path("results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
+
+validation1 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-indep-assessment.rds"))
+validation2 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-assessment.rds"))
+validation3 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
 
 # Item 5
 Var <- 5
