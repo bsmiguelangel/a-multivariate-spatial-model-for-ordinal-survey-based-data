@@ -9,7 +9,6 @@ pacman::p_load(foreign, readxl, faraway, spdep, sp, ggplot2, RColorBrewer,
 
 #### Health survey data loading: GHQ-12 items ####
 
-rm(list = ls())
 HSRV2022 <- read.spss(file.path("data", "ESCV2022_UV_Matem.sav"), 
                       use.value.labels = TRUE, to.data.frame = TRUE)
 # Sample size

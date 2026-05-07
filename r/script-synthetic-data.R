@@ -9,7 +9,6 @@ pacman::p_load(foreign, readxl, faraway, spdep, sp, ggplot2, RColorBrewer,
 
 #### Health survey data loading: GHQ-12 items ####
 
-rm(list = ls())
 load(file.path("data", "synthetic-data.RData"))
 
 # Sample size
