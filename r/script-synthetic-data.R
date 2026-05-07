@@ -279,18 +279,19 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
   return(results)
 }
 
-# system.time(salnimble1 <- parLapply(cl = this_cluster, X = 1:n.chains,
-#                                     fun = run_MCMC_allcode,
-#                                     code = modelCode,
-#                                     constants = modelConstants,
-#                                     data = modelData,
-#                                     monitors = modelParameters))
-# 
-# # Close the cluster after the parallel computation
-# stopCluster(this_cluster)
+system.time(salnimble1 <- parLapply(cl = this_cluster, X = 1:n.chains,
+                                    fun = run_MCMC_allcode,
+                                    code = modelCode,
+                                    constants = modelConstants,
+                                    data = modelData,
+                                    monitors = modelParameters))
 
-# 1.84h with: niter = 8000, nburnin = 2000, thin = 30
-# saveRDS(salnimble1, file = file.path("results", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
+# Close the cluster after the parallel computation
+stopCluster(this_cluster)
+
+n.sims <- 200 * n.chains
+labels <- c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12")
+# saveRDS(salnimble1, file = file.path("results", "multi-synthetic-nimble-MH-indep-8k-2k-30-WAIC.rds"))
 
 #### Correlated Model: Model-Corr ####
 
@@ -443,18 +444,19 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
   return(results)
 }
 
-# system.time(salnimble2 <- parLapply(cl = this_cluster, X = 1:n.chains, 
-#                                     fun = run_MCMC_allcode, 
-#                                     code = modelCode,
-#                                     constants = modelConstants,
-#                                     data = modelData,
-#                                     monitors = modelParameters))
-# 
-# # Close the cluster after the parallel computation
-# stopCluster(this_cluster)
+system.time(salnimble2 <- parLapply(cl = this_cluster, X = 1:n.chains,
+                                    fun = run_MCMC_allcode,
+                                    code = modelCode,
+                                    constants = modelConstants,
+                                    data = modelData,
+                                    monitors = modelParameters))
 
-# 6.18h with: niter = 8000, nburnin = 2000, thin = 30
-# saveRDS(salnimble2, file = file.path("results", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
+# Close the cluster after the parallel computation
+stopCluster(this_cluster)
+
+n.sims <- 200 * n.chains
+labels <- c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12")
+# saveRDS(salnimble2, file = file.path("results", "multi-synthetic-nimble-MH-corr-8k-2k-30-WAIC.rds"))
 
 #### Correlated with IREs Model: Model-Corr&IRE ####
 
@@ -614,27 +616,19 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
   return(results)
 }
 
-# system.time(salnimble3 <- parLapply(cl = this_cluster, X = 1:n.chains, 
-#                                     fun = run_MCMC_allcode, 
-#                                     code = modelCode,
-#                                     constants = modelConstants,
-#                                     data = modelData,
-#                                     monitors = modelParameters))
-# 
-# # Close the cluster after the parallel computation
-# stopCluster(this_cluster)
+system.time(salnimble3 <- parLapply(cl = this_cluster, X = 1:n.chains,
+                                    fun = run_MCMC_allcode,
+                                    code = modelCode,
+                                    constants = modelConstants,
+                                    data = modelData,
+                                    monitors = modelParameters))
 
-# 14.42h with: niter = 8000, nburnin = 2000, thin = 30
-# saveRDS(salnimble3, file = file.path("results", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
+# Close the cluster after the parallel computation
+stopCluster(this_cluster)
 
-#### Loading posterior samples ####
-
-n.chains <- 5
 n.sims <- 200 * n.chains
 labels <- c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12")
-salnimble1 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds"))
-salnimble2 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds"))
-salnimble3 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
+# saveRDS(salnimble3, file = file.path("results", "multi-synthetic-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
 
 #### Convert NIMBLE output to WinBUGS-style format: Model-Indep ####
 
@@ -933,15 +927,6 @@ ggplot(plot_sf) +
         legend.key.height = unit(0.9, "cm"), legend.key.width  = unit(0.7, "cm"),
         legend.spacing.y  = unit(0.08, "cm"))
 
-# ggsave(file.path("figures", "BeltranSanchez1.png"), device = "png",
-#        width = 10, height = 7, units = "in", dpi = 600)
-# 
-# ggsave(file.path("figures", "BeltranSanchez1.tiff"), device = "tiff",
-#        width = 10, height = 7, units = "in", dpi = 600, compression = "lzw")
-# 
-# ggsave(file.path("figures", "BeltranSanchez1.eps"), device = cairo_ps,
-#        width = 10, height = 7, units = "in", fallback_resolution = 600)
-
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
 
@@ -1000,17 +985,6 @@ ggplot(plot_sf) +
         legend.key.height = unit(0.9, "cm"), legend.key.width  = unit(0.7, "cm"),
         legend.spacing.y  = unit(0.08, "cm"))
 
-# ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 1, ".png")),
-#        device = "png", width = 16, height = 6, units = "in", dpi = 600)
-# 
-# ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 1, ".tiff")),
-#        device = "tiff", width = 16, height = 6, units = "in", dpi = 600,
-#        compression = "lzw")
-# 
-# ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 1, ".eps")),
-#        device = cairo_ps, width = 16, height = 6, units = "in", 
-#        fallback_resolution = 600)
-
 #### Posterior probabilities of the spatial effects: Figures 2 and S14 ####
 
 # Cartography of the Region of Valencia
@@ -1067,15 +1041,6 @@ ggplot(plot_sf) +
         strip.placement = "outside", panel.spacing = unit(0.05, "lines"),
         legend.text = element_text(size = 9), legend.position = "right")
 
-# ggsave(file.path("figures", "BeltranSanchez2.png"), device = "png",
-#        width = 10, height = 7, units = "in", dpi = 600)
-# 
-# ggsave(file.path("figures", "BeltranSanchez2.tiff"), device = "tiff",
-#        width = 10, height = 7, units = "in", dpi = 600, compression = "lzw")
-# 
-# ggsave(file.path("figures", "BeltranSanchez2.eps"), device = cairo_ps,
-#        width = 10, height = 7, units = "in", fallback_resolution = 600)
-
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
 
@@ -1129,17 +1094,6 @@ ggplot(plot_sf) +
                                          margin = margin(r = 8, l = 8)),
         strip.placement = "outside", panel.spacing = unit(0.05, "lines"),
         legend.text = element_text(size = 9), legend.position = "right")
-
-# ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 2, ".png")),
-#        device = "png", width = 16, height = 6, units = "in", dpi = 600)
-# 
-# ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 2, ".tiff")),
-#        device = "tiff", width = 16, height = 6, units = "in", dpi = 600,
-#        compression = "lzw")
-# 
-# ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 2, ".eps")),
-#        device = cairo_ps, width = 16, height = 6, units = "in",
-#        fallback_resolution = 600)
 
 #### Municipality-level correlation matrix under Model-Corr&IRE: Figure 3 ####
 
@@ -1211,9 +1165,6 @@ colnames(Significance) <- rownames(Significance) <- colnames(Corr.mean.orden)
 Significance <- (Significance - 1) * (-1)
 for (Var in 1:NVars) { Significance[Var, Var] <- 1 }
 
-# png(file.path("figures", "BeltranSanchez3.png"),
-#     width = 9, height = 9, units = "in", res = 600)
-
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
          type = "lower", method = "ellipse", 
@@ -1228,49 +1179,6 @@ corrplot(as.matrix(Corr.mean.orden),
          diag = FALSE, add = TRUE, cl.pos = "n",
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-
-# dev.off()
-
-# tiff(file.path("figures", "BeltranSanchez3.tiff"),
-#      width = 9, height = 9, units = "in", res = 600, compression = "lzw")
-# 
-# # First: ellipses in lower triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "lower", method = "ellipse", 
-#          p.mat = Significance, sig.level = 0.05, insig = "label_sig",
-#          pch.cex = 1.5, pch.col = "grey20",
-#          addCoef.col = "black", number.cex = 0.8,
-#          tl.pos = "d", tl.cex = 0.9, cl.pos = "r")
-# 
-# # Second: CI in upper triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "upper", method = "square",
-#          diag = FALSE, add = TRUE, cl.pos = "n",
-#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
-#          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-# 
-# dev.off()
-# 
-# setEPS()
-# postscript(file.path("figures", "BeltranSanchez3.eps"),
-#            width = 9, height = 9, horizontal = FALSE, onefile = FALSE)
-# 
-# # First: ellipses in lower triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "lower", method = "ellipse", 
-#          p.mat = Significance, sig.level = 0.05, insig = "label_sig",
-#          pch.cex = 1.5, pch.col = "grey20",
-#          addCoef.col = "black", number.cex = 0.8,
-#          tl.pos = "d", tl.cex = 0.9, cl.pos = "r")
-# 
-# # Second: CI in upper triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "upper", method = "square",
-#          diag = FALSE, add = TRUE, cl.pos = "n",
-#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
-#          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-# 
-# dev.off()
 
 #### Individual-level correlation matrix under Model-Corr&IRE: Figure 4 ####
 
@@ -1342,9 +1250,6 @@ colnames(Significance) <- rownames(Significance) <- colnames(Corr.mean.orden)
 Significance <- (Significance - 1) * (-1)
 for (Var in 1:NVars) { Significance[Var, Var] <- 1 }
 
-# png(file.path("figures", "BeltranSanchez4.png"),
-#     width = 9, height = 9, units = "in", res = 600)
-
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
          type = "lower", method = "ellipse", 
@@ -1359,49 +1264,6 @@ corrplot(as.matrix(Corr.mean.orden),
          diag = FALSE, add = TRUE, cl.pos = "n",
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-
-# dev.off()
-
-# tiff(file.path("figures", "BeltranSanchez4.tiff"),
-#      width = 9, height = 9, units = "in", res = 600, compression = "lzw")
-# 
-# # First: ellipses in lower triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "lower", method = "ellipse", 
-#          p.mat = Significance, sig.level = 0.05, insig = "label_sig",
-#          pch.cex = 1.5, pch.col = "grey20",
-#          addCoef.col = "black", number.cex = 0.8,
-#          tl.pos = "d", tl.cex = 0.9, cl.pos = "r")
-# 
-# # Second: CI in upper triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "upper", method = "square",
-#          diag = FALSE, add = TRUE, cl.pos = "n",
-#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
-#          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-# 
-# dev.off()
-# 
-# setEPS()
-# postscript(file.path("figures", "BeltranSanchez4.eps"),
-#            width = 9, height = 9, horizontal = FALSE, onefile = FALSE)
-# 
-# # First: ellipses in lower triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "lower", method = "ellipse", 
-#          p.mat = Significance, sig.level = 0.05, insig = "label_sig",
-#          pch.cex = 1.5, pch.col = "grey20",
-#          addCoef.col = "black", number.cex = 0.8,
-#          tl.pos = "d", tl.cex = 0.9, cl.pos = "r")
-# 
-# # Second: CI in upper triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "upper", method = "square",
-#          diag = FALSE, add = TRUE, cl.pos = "n",
-#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
-#          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-# 
-# dev.off()
 
 #### Municipality-level correlation matrix under Model-Corr: Figure S15 ####
 
@@ -1474,9 +1336,6 @@ colnames(Significance) <- rownames(Significance) <- colnames(Corr.mean.orden)
 Significance <- (Significance - 1) * (-1)
 for (Var in 1:NVars) { Significance[Var, Var] <- 1 }
 
-# png(file.path("figures", paste0("SupplementalMaterial", NVars + 3, ".png")),
-#     width = 9, height = 9, units = "in", res = 600)
-
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
          type = "lower", method = "ellipse", 
@@ -1491,49 +1350,6 @@ corrplot(as.matrix(Corr.mean.orden),
          diag = FALSE, add = TRUE, cl.pos = "n",
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-
-# dev.off()
-
-# tiff(file.path("figures", paste0("SupplementalMaterial", NVars + 3, ".tiff")),
-#      width = 9, height = 9, units = "in", res = 600, compression = "lzw")
-# 
-# # First: ellipses in lower triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "lower", method = "ellipse", 
-#          p.mat = Significance, sig.level = 0.05, insig = "label_sig",
-#          pch.cex = 1.5, pch.col = "grey20",
-#          addCoef.col = "black", number.cex = 0.8,
-#          tl.pos = "d", tl.cex = 0.9, cl.pos = "r")
-# 
-# # Second: CI in upper triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "upper", method = "square",
-#          diag = FALSE, add = TRUE, cl.pos = "n",
-#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
-#          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-# 
-# dev.off()
-# 
-# # setEPS()
-# # postscript(file.path("figures", paste0("SupplementalMaterial", NVars + 3, ".eps")),
-# #            width = 9, height = 9, horizontal = FALSE, onefile = FALSE)
-# 
-# # First: ellipses in lower triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "lower", method = "ellipse", 
-#          p.mat = Significance, sig.level = 0.05, insig = "label_sig",
-#          pch.cex = 1.5, pch.col = "grey20",
-#          addCoef.col = "black", number.cex = 0.8,
-#          tl.pos = "d", tl.cex = 0.9, cl.pos = "r")
-# 
-# # Second: CI in upper triangular
-# corrplot(as.matrix(Corr.mean.orden),
-#          type = "upper", method = "square",
-#          diag = FALSE, add = TRUE, cl.pos = "n",
-#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
-#          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
-# 
-# dev.off()
 
 #### Principal component analysis of the spatial effects: Figure 5 ####
 
@@ -1593,15 +1409,6 @@ p2 <- ggplot(carto_muni_sf) +
         legend.spacing.y = unit(0.08, "cm"))
 p1 + p2
 
-# ggsave(file.path("figures", "BeltranSanchez5.png"), device = "png",
-#        width = 10, height = 7, units = "in", dpi = 600)
-# 
-# ggsave(file.path("figures", "BeltranSanchez5.tiff"), device = "tiff", 
-#        width = 10, height = 7, units = "in", dpi = 600, compression = "lzw")
-# 
-# ggsave(file.path("figures", "BeltranSanchez5.eps"), device = cairo_ps,
-#        width = 10, height = 7, units = "in", fallback_resolution = 600)
-
 #### Cut points by sex and age group: Figures S1–S12 ####
 
 round(salwinbugs3$summary, 4)[startsWith(labels(salwinbugs3$summary)[[1]], "kappa"), ]
@@ -1641,18 +1448,6 @@ for (Var in 1:NVars) {
   kappa <- ggarrange(plotlist = p, nrow = 2, ncol = 4, common.legend = TRUE, 
                      legend = "bottom")
   print(kappa)
-  
-  # ggsave(file.path("figures", paste0("SupplementalMaterial", Var, ".png")),
-  #        plot = kappa, device = "png", width = 12, height = 6.5,
-  #        units = "in", dpi = 600)
-  # 
-  # ggsave(file.path("figures", paste0("SupplementalMaterial", Var, ".tiff")),
-  #        plot = kappa, device = "tiff", width = 12, height = 6.5,
-  #        units = "in", dpi = 600, compression = "lzw")
-  # 
-  # ggsave(file.path("figures", paste0("SupplementalMaterial", Var, ".eps")),
-  #        plot = kappa, device = cairo_ps, width = 12, height = 6.5,
-  #        units = "in", fallback_resolution = 600)
 }
 
 #### Model assessment: Table 2 ####
@@ -1828,33 +1623,29 @@ SurveyMapping.Validation <- function(prlevels, Muni) {
 # Six municipalities with the largest population in the Region of Valencia
 Munis <- order(apply(sample, 1, sum), decreasing = TRUE)[1:6]
 
-# validation1 <- list()
-# for (Muni in 1:length(Munis)) {
-#   set.seed(9747783)
-#   validation1[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels1, Muni = Munis[Muni])
-# }
+validation1 <- list()
+for (Muni in 1:length(Munis)) {
+  set.seed(9747783)
+  validation1[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels1, Muni = Munis[Muni])
+}
 
-# saveRDS(validation1, file = file.path("results", "multi-2022-nimble-MH-indep-assessment.rds"))
+# saveRDS(validation1, file = file.path("results", "multi-synthetic-nimble-MH-indep-assessment.rds"))
 
-# validation2 <- list()
-# for (Muni in 1:length(Munis)) {
-#   set.seed(9747783)
-#   validation2[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels2, Muni = Munis[Muni])
-# }
+validation2 <- list()
+for (Muni in 1:length(Munis)) {
+  set.seed(9747783)
+  validation2[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels2, Muni = Munis[Muni])
+}
 
-# saveRDS(validation2, file = file.path("results", "multi-2022-nimble-MH-corr-assessment.rds"))
+# saveRDS(validation2, file = file.path("results", "multi-synthetic-nimble-MH-corr-assessment.rds"))
 
-# validation3 <- list()
-# for (Muni in 1:length(Munis)) {
-#   set.seed(9747783)
-#   validation3[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels3, Muni = Munis[Muni])
-# }
+validation3 <- list()
+for (Muni in 1:length(Munis)) {
+  set.seed(9747783)
+  validation3[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels3, Muni = Munis[Muni])
+}
 
-# saveRDS(validation3, file = file.path("results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
-
-validation1 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-indep-assessment.rds"))
-validation2 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-assessment.rds"))
-validation3 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
+# saveRDS(validation3, file = file.path("results", "multi-synthetic-nimble-MH-corr-ire-assessment.rds"))
 
 # Item 5
 Var <- 5
@@ -1894,14 +1685,6 @@ samples <- do.call(rbind, salnimble1)           # single matrix of samples
 waic1 <- calculateWAIC(samples, modelWAIC)
 waic1
 
-# nimbleList object of type waicNimbleList
-# Field "WAIC":
-#   [1] 192525.4
-# Field "lppd":
-#   [1] -94783.11
-# Field "pWAIC":
-#   [1] 1479.595
-
 ### Model-Corr ###
 
 source(file = file.path("models", "model-corr.R"))
@@ -1928,14 +1711,6 @@ CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled mo
 samples <- do.call(rbind, salnimble2)           # single matrix of samples
 waic2 <- calculateWAIC(samples, modelWAIC)
 waic2
-
-# nimbleList object of type waicNimbleList
-# Field "WAIC":
-#   [1] 190447.6
-# Field "lppd":
-#   [1] -93940.28
-# Field "pWAIC":
-#   [1] 1283.548
 
 ### Model-Corr&IRE ###
 
@@ -1966,14 +1741,6 @@ CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled mo
 samples <- do.call(rbind, salnimble3)           # single matrix of samples
 waic3 <- calculateWAIC(samples, modelWAIC)
 waic3
-
-# nimbleList object of type waicNimbleList
-# Field "WAIC":
-#   [1] 103170.1
-# Field "lppd":
-#   [1] -36079.51
-# Field "pWAIC":
-#   [1] 15505.53
 
 #### Convergence assessment ####
 
