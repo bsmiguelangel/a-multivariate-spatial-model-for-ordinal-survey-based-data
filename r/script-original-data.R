@@ -265,8 +265,8 @@ dcar_leroux <- nimbleFunction(
 
 #### Independent Model: Model-Indep ####
 
-n.chains <- 5
-this_cluster <- makeCluster(n.chains)
+# n.chains <- 5
+# this_cluster <- makeCluster(n.chains)
 
 ### Model code ###
 
@@ -434,8 +434,8 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
 
 #### Correlated Model: Model-Corr ####
 
-n.chains <- 5
-this_cluster <- makeCluster(n.chains)
+# n.chains <- 5
+# this_cluster <- makeCluster(n.chains)
 
 ### Model code ###
 
@@ -598,8 +598,8 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
 
 #### Correlated with IREs Model: Model-Corr&IRE ####
 
-n.chains <- 5
-this_cluster <- makeCluster(n.chains)
+# n.chains <- 5
+# this_cluster <- makeCluster(n.chains)
 
 ### Model code ###
 
@@ -1376,7 +1376,7 @@ corrplot(as.matrix(Corr.mean.orden),
 # 
 # # First: ellipses in lower triangular
 # corrplot(as.matrix(Corr.mean.orden),
-#          type = "lower", method = "ellipse", 
+#          type = "lower", method = "ellipse",
 #          p.mat = Significance, sig.level = 0.05, insig = "label_sig",
 #          pch.cex = 1.5, pch.col = "grey20",
 #          addCoef.col = "black", number.cex = 0.8,
@@ -1386,7 +1386,7 @@ corrplot(as.matrix(Corr.mean.orden),
 # corrplot(as.matrix(Corr.mean.orden),
 #          type = "upper", method = "square",
 #          diag = FALSE, add = TRUE, cl.pos = "n",
-#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
+#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden),
 #          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 # 
 # dev.off()
@@ -1507,7 +1507,7 @@ corrplot(as.matrix(Corr.mean.orden),
 # 
 # # First: ellipses in lower triangular
 # corrplot(as.matrix(Corr.mean.orden),
-#          type = "lower", method = "ellipse", 
+#          type = "lower", method = "ellipse",
 #          p.mat = Significance, sig.level = 0.05, insig = "label_sig",
 #          pch.cex = 1.5, pch.col = "grey20",
 #          addCoef.col = "black", number.cex = 0.8,
@@ -1517,7 +1517,7 @@ corrplot(as.matrix(Corr.mean.orden),
 # corrplot(as.matrix(Corr.mean.orden),
 #          type = "upper", method = "square",
 #          diag = FALSE, add = TRUE, cl.pos = "n",
-#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
+#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden),
 #          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 # 
 # dev.off()
@@ -1639,7 +1639,7 @@ corrplot(as.matrix(Corr.mean.orden),
 # 
 # # First: ellipses in lower triangular
 # corrplot(as.matrix(Corr.mean.orden),
-#          type = "lower", method = "ellipse", 
+#          type = "lower", method = "ellipse",
 #          p.mat = Significance, sig.level = 0.05, insig = "label_sig",
 #          pch.cex = 1.5, pch.col = "grey20",
 #          addCoef.col = "black", number.cex = 0.8,
@@ -1649,7 +1649,7 @@ corrplot(as.matrix(Corr.mean.orden),
 # corrplot(as.matrix(Corr.mean.orden),
 #          type = "upper", method = "square",
 #          diag = FALSE, add = TRUE, cl.pos = "n",
-#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
+#          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden),
 #          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 # 
 # dev.off()
@@ -1736,7 +1736,7 @@ p1 + p2
 # ggsave(file.path("figures", "BeltranSanchez5.png"), device = "png",
 #        width = 10, height = 7, units = "in", dpi = 600)
 # 
-# ggsave(file.path("figures", "BeltranSanchez5.tiff"), device = "tiff", 
+# ggsave(file.path("figures", "BeltranSanchez5.tiff"), device = "tiff",
 #        width = 10, height = 7, units = "in", dpi = 600, compression = "lzw")
 # 
 # ggsave(file.path("figures", "BeltranSanchez5.eps"), device = cairo_ps,

@@ -290,7 +290,6 @@ stopCluster(this_cluster)
 
 n.sims <- 200 * n.chains
 labels <- c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12")
-# saveRDS(salnimble1, file = file.path("results", "multi-synthetic-nimble-MH-indep-8k-2k-30-WAIC.rds"))
 
 #### Correlated Model: Model-Corr ####
 
@@ -455,7 +454,6 @@ stopCluster(this_cluster)
 
 n.sims <- 200 * n.chains
 labels <- c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12")
-# saveRDS(salnimble2, file = file.path("results", "multi-synthetic-nimble-MH-corr-8k-2k-30-WAIC.rds"))
 
 #### Correlated with IREs Model: Model-Corr&IRE ####
 
@@ -627,7 +625,6 @@ stopCluster(this_cluster)
 
 n.sims <- 200 * n.chains
 labels <- c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12")
-# saveRDS(salnimble3, file = file.path("results", "multi-synthetic-nimble-MH-corr-ire-8k-2k-30-WAIC.rds"))
 
 #### Convert NIMBLE output to WinBUGS-style format: Model-Indep ####
 
@@ -941,8 +938,8 @@ thetasim <- thetasim[, , selection, ]
 
 # Fifteen equal-probability intervals
 breaks <- c(min(apply(thetasim, 2:4, mean)) - 0.001, quantile(apply(thetasim, 2:4, mean), probs = seq(1/15, 14/15, length.out = 14)), max(apply(thetasim, 2:4, mean)))
-breaks <- c(-3.75, -0.75, -0.25, -0.20, -0.15, -0.10, -0.05, -0.02, 
-            0.02, 0.05, 0.10, 0.15, 0.20, 0.25, 0.75, 3.75)
+breaks <- c(-4.5, -0.75, -0.25, -0.20, -0.15, -0.10, -0.05, -0.02, 
+            0.02, 0.05, 0.10, 0.15, 0.20, 0.25, 0.75, 4.5)
 break_labels <- c("\u2264 -0.75", "(-0.75, -0.25]", "(-0.25, -0.20]", 
                   "(-0.20, -0.15]", "(-0.15, -0.10]", "(-0.10, -0.05]", 
                   "(-0.05, -0.02]", "(-0.02, 0.02]", "(0.02, 0.05]", 
@@ -1628,23 +1625,17 @@ for (Muni in 1:length(Munis)) {
   validation1[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels1, Muni = Munis[Muni])
 }
 
-# saveRDS(validation1, file = file.path("results", "multi-synthetic-nimble-MH-indep-assessment.rds"))
-
 validation2 <- list()
 for (Muni in 1:length(Munis)) {
   set.seed(9747783)
   validation2[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels2, Muni = Munis[Muni])
 }
 
-# saveRDS(validation2, file = file.path("results", "multi-synthetic-nimble-MH-corr-assessment.rds"))
-
 validation3 <- list()
 for (Muni in 1:length(Munis)) {
   set.seed(9747783)
   validation3[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels3, Muni = Munis[Muni])
 }
-
-# saveRDS(validation3, file = file.path("results", "multi-synthetic-nimble-MH-corr-ire-assessment.rds"))
 
 # Item 5
 Var <- 5
