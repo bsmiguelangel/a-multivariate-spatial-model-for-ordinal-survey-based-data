@@ -1,11 +1,11 @@
-- multi-2022-nimble-MH-indep-8k-2k-30-WAIC:
+PRECOMPUTED POSTERIOR SAMPLES
 
-https://drive.google.com/file/d/1KnfwDerzrf8gJF5c_mzn6_D-_IzMqXmz/view?usp=sharing
+The precomputed posterior samples for the three proposed multivariate models are permanently archived on Zenodo:
 
-- multi-2022-nimble-MH-corr-8k-2k-30-WAIC:
+DOI: https://doi.org/10.5281/zenodo.22811959
 
-https://drive.google.com/file/d/1VlpcB_q5yzeWUuiq0lDpTzEWxQ9OtHEN/view?usp=sharing
+The following files should be downloaded and placed in the "results" folder before running script-original-data.R as provided:
 
-- multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC:
-
-https://drive.google.com/file/d/1aqUlW03-HPbWrTyWwPh4c1wRy8QD3fTN/view?usp=sharing
+- multi-2022-nimble-MH-indep-8k-2k-30-WAIC.rds
+- multi-2022-nimble-MH-corr-8k-2k-30-WAIC.rds
+- multi-2022-nimble-MH-corr-ire-8k-2k-30-WAIC.rds
