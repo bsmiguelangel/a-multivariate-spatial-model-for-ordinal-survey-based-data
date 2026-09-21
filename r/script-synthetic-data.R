@@ -1,3 +1,13 @@
+#### Script purpose ####
+
+# This script reproduces the complete analysis using the synthetic dataset
+# synthetic-data.RData.
+#
+# This script was not used to obtain the results, tables, or figures reported
+# in the manuscript. It is provided so that users without access to the
+# original survey data can fit the three models and obtain similar results
+# using the synthetic data.
+
 #### Required packages ####
 
 ## install.packages("pacman")
@@ -863,7 +873,13 @@ NimToWin <- function(salnimble) {
 
 salwinbugs3 <- NimToWin(salnimble = salnimble3)
 
-#### Posterior means of the spatial effects: Figures 1 and S13 ####
+#### Figures corresponding to the manuscript figures ####
+
+# The sections below reproduce the structure of the corresponding manuscript
+# figures using the synthetic data. They are not expected to reproduce the
+# exact numerical results or figure files reported in the manuscript.
+
+#### Figure 1: Posterior means of the spatial effects ####
 
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
@@ -923,6 +939,8 @@ ggplot(plot_sf) +
         legend.key.height = unit(0.9, "cm"), legend.key.width  = unit(0.7, "cm"),
         legend.spacing.y  = unit(0.08, "cm"))
 
+#### Figure S13: Posterior means of the spatial effects ####
+
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
 
@@ -981,7 +999,7 @@ ggplot(plot_sf) +
         legend.key.height = unit(0.9, "cm"), legend.key.width  = unit(0.7, "cm"),
         legend.spacing.y  = unit(0.08, "cm"))
 
-#### Posterior probabilities of the spatial effects: Figures 2 and S14 ####
+#### Figure 2: Posterior probabilities of the spatial effects ####
 
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
@@ -1037,6 +1055,8 @@ ggplot(plot_sf) +
         strip.placement = "outside", panel.spacing = unit(0.05, "lines"),
         legend.text = element_text(size = 9), legend.position = "right")
 
+#### Figure S14: Posterior probabilities of the spatial effects ####
+
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
 
@@ -1091,7 +1111,7 @@ ggplot(plot_sf) +
         strip.placement = "outside", panel.spacing = unit(0.05, "lines"),
         legend.text = element_text(size = 9), legend.position = "right")
 
-#### Municipality-level correlation matrix under Model-Corr&IRE: Figure 3 ####
+#### Figure 3: Municipality-level correlation matrix under Model-Corr&IRE ####
 
 SurveyMapping.Sigma.Muni <- function(salwinbugs) {
   
@@ -1153,7 +1173,24 @@ Corr.quantileU.orden <- Corr.quantileU.orden[orden, orden]
 
 ### Adding significances ###
 
-# add on line 446 +0.35 y +0.15
+# Correlations whose 95% posterior interval excludes zero are marked with
+# an asterisk using the "label_sig" option in corrplot.
+#
+# To match the exact graphical layout used in the published figure, the
+# significance asterisks were repositioned to the upper-right corner of the
+# corresponding cells. This was done by temporarily editing corrplot() using
+# trace(corrplot, edit = TRUE) and modifying the placement of the significance
+# symbols in the internal place_points() function as follows:
+#
+# text(pos.pNew[, 1][sig.locs] + 0.35,
+#      pos.pNew[, 2][sig.locs] + 0.15,
+#      labels = point, col = pch.col, cex = pch.cex, lwd = 2)
+#
+# Thus, the x- and y-coordinates of the significance symbols were shifted by
+# +0.35 and +0.15, respectively. This adjustment affects only the graphical
+# position of the asterisks and does not affect the estimated correlations,
+# posterior intervals, or which correlations are marked with an asterisk.
+#
 # trace(corrplot, edit = TRUE)
 
 Significance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden < 0), ncol = NVars, nrow = NVars, byrow = FALSE)
@@ -1176,7 +1213,7 @@ corrplot(as.matrix(Corr.mean.orden),
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 
-#### Individual-level correlation matrix under Model-Corr&IRE: Figure 4 ####
+#### Figure 4: Individual-level correlation matrix under Model-Corr&IRE ####
 
 SurveyMapping.Sigma.Resp <- function(salwinbugs) {
   
@@ -1238,7 +1275,24 @@ Corr.quantileU.orden <- Corr.quantileU.orden[orden, orden]
 
 ### Adding significances ###
 
-# add on line 446 +0.35 y +0.15
+# Correlations whose 95% posterior interval excludes zero are marked with
+# an asterisk using the "label_sig" option in corrplot.
+#
+# To match the exact graphical layout used in the published figure, the
+# significance asterisks were repositioned to the upper-right corner of the
+# corresponding cells. This was done by temporarily editing corrplot() using
+# trace(corrplot, edit = TRUE) and modifying the placement of the significance
+# symbols in the internal place_points() function as follows:
+#
+# text(pos.pNew[, 1][sig.locs] + 0.35,
+#      pos.pNew[, 2][sig.locs] + 0.15,
+#      labels = point, col = pch.col, cex = pch.cex, lwd = 2)
+#
+# Thus, the x- and y-coordinates of the significance symbols were shifted by
+# +0.35 and +0.15, respectively. This adjustment affects only the graphical
+# position of the asterisks and does not affect the estimated correlations,
+# posterior intervals, or which correlations are marked with an asterisk.
+#
 # trace(corrplot, edit = TRUE)
 
 Significance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden < 0), ncol = NVars, nrow = NVars, byrow = FALSE)
@@ -1261,7 +1315,7 @@ corrplot(as.matrix(Corr.mean.orden),
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 
-#### Municipality-level correlation matrix under Model-Corr: Figure S15 ####
+#### Figure S15: Municipality-level correlation matrix under Model-Corr ####
 
 SurveyMapping.Sigma.Muni <- function(salwinbugs) {
   
@@ -1324,7 +1378,24 @@ Corr.quantileU.orden <- Corr.quantileU.orden[orden, orden]
 
 ### Adding significances ###
 
-# add on line 446 +0.35 y +0.15
+# Correlations whose 95% posterior interval excludes zero are marked with
+# an asterisk using the "label_sig" option in corrplot.
+#
+# To match the exact graphical layout used in the published figure, the
+# significance asterisks were repositioned to the upper-right corner of the
+# corresponding cells. This was done by temporarily editing corrplot() using
+# trace(corrplot, edit = TRUE) and modifying the placement of the significance
+# symbols in the internal place_points() function as follows:
+#
+# text(pos.pNew[, 1][sig.locs] + 0.35,
+#      pos.pNew[, 2][sig.locs] + 0.15,
+#      labels = point, col = pch.col, cex = pch.cex, lwd = 2)
+#
+# Thus, the x- and y-coordinates of the significance symbols were shifted by
+# +0.35 and +0.15, respectively. This adjustment affects only the graphical
+# position of the asterisks and does not affect the estimated correlations,
+# posterior intervals, or which correlations are marked with an asterisk.
+#
 # trace(corrplot, edit = TRUE)
 
 Significance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden < 0), ncol = NVars, nrow = NVars, byrow = FALSE)
@@ -1347,7 +1418,7 @@ corrplot(as.matrix(Corr.mean.orden),
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 
-#### Principal component analysis of the spatial effects: Figure 5 ####
+#### Figure 5: Principal component analysis of the spatial effects ####
 
 salwinbugs <- salwinbugs3
 thetasim <- salwinbugs$sims.list$theta
@@ -1405,7 +1476,7 @@ p2 <- ggplot(carto_muni_sf) +
         legend.spacing.y = unit(0.08, "cm"))
 p1 + p2
 
-#### Cut points by sex and age group: Figures S1–S12 ####
+#### Figures S1–S12: Cut points by sex and age group ####
 
 round(salwinbugs3$summary, 4)[startsWith(labels(salwinbugs3$summary)[[1]], "kappa"), ]
 kappamean <- apply(salwinbugs3$sims.list$kappa, 2:5, mean)
@@ -1446,7 +1517,7 @@ for (Var in 1:NVars) {
   print(kappa)
 }
 
-#### Model assessment: Table 2 ####
+#### Model assessment ####
 
 ### Model-Indep ###
 
@@ -1637,15 +1708,76 @@ for (Muni in 1:length(Munis)) {
   validation3[[Muni]] <- SurveyMapping.Validation(prlevels = prlevels3, Muni = Munis[Muni])
 }
 
-# Item 5
-Var <- 5
-# Valencia
-Muni <- 1
-# Results
-validation1[[Muni]]$mean[Var, ]; validation1[[Muni]]$PI$lower[Var, ]; validation1[[Muni]]$PI$upper[Var, ]
-validation2[[Muni]]$mean[Var, ]; validation2[[Muni]]$PI$lower[Var, ]; validation2[[Muni]]$PI$upper[Var, ]
-validation3[[Muni]]$mean[Var, ]; validation3[[Muni]]$PI$lower[Var, ]; validation3[[Muni]]$PI$upper[Var, ]
-validation3[[Muni]]$real[Var, ]
+### Functions to construct the model assessment tables ###
+
+# Municipalities in the order used in the model assessment objects
+table_municipality <- as.character(carto_muni$NOMBRE_MUNI[Munis])
+table_municipality <- c("Valencia", "Elche", "Alicante",
+                        "Castellón de la Plana", "Orihuela", "Torrevieja")
+
+# Function to format posterior mean and 95% prediction interval
+format_prediction <- function(validation, Muni, Var) {
+  
+  mean <- validation[[Muni]]$mean[Var, ]
+  lower <- validation[[Muni]]$PI$lower[Var, ]
+  upper <- validation[[Muni]]$PI$upper[Var, ]
+  
+  sprintf("%.2f (%.2f–%.2f)", mean, lower, upper)
+}
+
+# Function to construct a model assessment table for a given item
+construct_assessment_table <- function(Var) {
+  
+  TableVar <- do.call(rbind, lapply(seq_along(table_municipality), function(Muni) {
+    
+    indep <- format_prediction(validation1, Muni, Var)
+    corr <- format_prediction(validation2, Muni, Var)
+    corrire <- format_prediction(validation3, Muni, Var)
+    observed <- sprintf("%.2f", validation3[[Muni]]$real[Var, ])
+    
+    data.frame(Municipality = rep(table_municipality[Muni], 4),
+               Model = c("Indep", "Corr", "Corr&IRE", "Observed"),
+               "1" = c(indep[1], corr[1], corrire[1], observed[1]),
+               "2" = c(indep[2], corr[2], corrire[2], observed[2]),
+               "3" = c(indep[3], corr[3], corrire[3], observed[3]),
+               "4" = c(indep[4], corr[4], corrire[4], observed[4]),
+               check.names = FALSE)
+  })
+  )
+  
+  rownames(TableVar) <- NULL
+  TableVar
+}
+
+#### Tables corresponding to the manuscript tables ####
+
+# The sections below reproduce the structure of the corresponding manuscript
+# tables using the synthetic data. They are not expected to reproduce the
+# exact numerical results or table files reported in the manuscript.
+
+#### Table 2: Model assessment ####
+
+Table2 <- construct_assessment_table(Var = 5)
+
+old_width <- getOption("width")
+options(width = 200)
+print(Table2, row.names = FALSE, right = FALSE)
+options(width = old_width)
+
+#### Tables S1-S12: Model assessment ####
+
+old_width <- getOption("width")
+options(width = 200)
+
+for (Var in 1:NVars) {
+  
+  TableVar <- construct_assessment_table(Var)
+  
+  cat("\nTable S", Var, " - Item ", Var, "\n", sep = "")
+  print(TableVar, row.names = FALSE, right = FALSE)
+}
+
+options(width = old_width)
 
 #### WAIC computation ####
 

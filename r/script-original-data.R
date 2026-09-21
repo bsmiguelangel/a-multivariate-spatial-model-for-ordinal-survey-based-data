@@ -1,3 +1,15 @@
+#### Script purpose ####
+
+# This script contains the code used to obtain the analyses, tables, and figures
+# reported in the manuscript using the original survey data.
+#
+# Running this script requires access to the original survey data file
+# ESCV2022_UV_Matem.sav. By default, precomputed posterior samples are loaded
+# to avoid rerunning the computationally intensive MCMC fitting step.
+#
+# Instructions for performing the model-fitting step from scratch are provided
+# in the section "Running the models".
+
 #### Required packages ####
 
 ## install.packages("pacman")
@@ -262,6 +274,31 @@ dcar_leroux <- nimbleFunction(
     else return(exp(logDens))
   }
 )
+
+#### Running the models ####
+
+# The code below contains the complete specification and fitting procedure
+# for the three models used in the manuscript.
+#
+# By default, the computationally intensive MCMC execution commands are
+# commented out. Precomputed posterior samples are subsequently loaded in
+# the section "Loading posterior samples" so that all manuscript results
+# can be reproduced without rerunning the model-fitting step.
+#
+# For a complete reproduction from scratch, uncomment:
+#  (i) the n.chains and makeCluster() commands,
+#  (ii) the system.time(parLapply(...)) command,
+#  (iii) stopCluster(), and
+#  (iv) saveRDS()
+# for each of the three models below.
+#
+# Approximate fitting times on the system used for the original analysis:
+#   Model-Indep:     1.84 h
+#   Model-Corr:      6.18 h
+#   Model-Corr&IRE: 14.42 h
+#
+# The resulting .rds files are saved in the "results" folder and are then loaded
+# in the section "Loading posterior samples" below.
 
 #### Independent Model: Model-Indep ####
 
@@ -769,6 +806,14 @@ run_MCMC_allcode <- function(X, code, constants, data, monitors) {
 
 #### Loading posterior samples ####
 
+# The following files contain the posterior samples obtained from the
+# three model-fitting procedures above. They are loaded by default to
+# avoid rerunning the computationally intensive MCMC fitting step.
+#
+# If the model-fitting step has been performed from scratch and the resulting
+# posterior samples have been saved using the saveRDS() commands above,
+# these readRDS() calls will simply load the newly generated posterior samples.
+
 n.chains <- 5
 n.sims <- 200 * n.chains
 labels <- c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7", "Item 8", "Item 9", "Item 10", "Item 11", "Item 12")
@@ -1013,7 +1058,16 @@ NimToWin <- function(salnimble) {
 
 salwinbugs3 <- NimToWin(salnimble = salnimble3)
 
-#### Posterior means of the spatial effects: Figures 1 and S13 ####
+#### Manuscript and supplementary figures ####
+
+# Each section below is explicitly labeled with the corresponding figure number
+# in the manuscript or Supplemental Material.
+#
+# The figures are generated when the code is run and are exported in PNG format
+# to the "figures" folder. Equivalent commands for exporting the figures in
+# TIFF and EPS formats are also provided but are commented out by default.
+
+#### Figure 1: Posterior means of the spatial effects ####
 
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
@@ -1073,14 +1127,16 @@ ggplot(plot_sf) +
         legend.key.height = unit(0.9, "cm"), legend.key.width  = unit(0.7, "cm"),
         legend.spacing.y  = unit(0.08, "cm"))
 
-# ggsave(file.path("figures", "BeltranSanchez1.png"), device = "png",
-#        width = 10, height = 7, units = "in", dpi = 600)
-# 
+ggsave(file.path("figures", "BeltranSanchez1.png"), device = "png",
+       width = 10, height = 7, units = "in", dpi = 600)
+
 # ggsave(file.path("figures", "BeltranSanchez1.tiff"), device = "tiff",
 #        width = 10, height = 7, units = "in", dpi = 600, compression = "lzw")
 # 
 # ggsave(file.path("figures", "BeltranSanchez1.eps"), device = cairo_ps,
 #        width = 10, height = 7, units = "in", fallback_resolution = 600)
+
+#### Figure S13: Posterior means of the spatial effects ####
 
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
@@ -1140,9 +1196,9 @@ ggplot(plot_sf) +
         legend.key.height = unit(0.9, "cm"), legend.key.width  = unit(0.7, "cm"),
         legend.spacing.y  = unit(0.08, "cm"))
 
-# ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 1, ".png")),
-#        device = "png", width = 16, height = 6, units = "in", dpi = 600)
-# 
+ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 1, ".png")),
+       device = "png", width = 16, height = 6, units = "in", dpi = 600)
+
 # ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 1, ".tiff")),
 #        device = "tiff", width = 16, height = 6, units = "in", dpi = 600,
 #        compression = "lzw")
@@ -1151,7 +1207,7 @@ ggplot(plot_sf) +
 #        device = cairo_ps, width = 16, height = 6, units = "in", 
 #        fallback_resolution = 600)
 
-#### Posterior probabilities of the spatial effects: Figures 2 and S14 ####
+#### Figure 2: Posterior probabilities of the spatial effects ####
 
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
@@ -1207,14 +1263,16 @@ ggplot(plot_sf) +
         strip.placement = "outside", panel.spacing = unit(0.05, "lines"),
         legend.text = element_text(size = 9), legend.position = "right")
 
-# ggsave(file.path("figures", "BeltranSanchez2.png"), device = "png",
-#        width = 10, height = 7, units = "in", dpi = 600)
-# 
+ggsave(file.path("figures", "BeltranSanchez2.png"), device = "png",
+       width = 10, height = 7, units = "in", dpi = 600)
+
 # ggsave(file.path("figures", "BeltranSanchez2.tiff"), device = "tiff",
 #        width = 10, height = 7, units = "in", dpi = 600, compression = "lzw")
 # 
 # ggsave(file.path("figures", "BeltranSanchez2.eps"), device = cairo_ps,
 #        width = 10, height = 7, units = "in", fallback_resolution = 600)
+
+#### Figure S14: Posterior probabilities of the spatial effects ####
 
 # Cartography of the Region of Valencia
 load(file.path("data", "CartoCV.Rdata"))
@@ -1270,9 +1328,9 @@ ggplot(plot_sf) +
         strip.placement = "outside", panel.spacing = unit(0.05, "lines"),
         legend.text = element_text(size = 9), legend.position = "right")
 
-# ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 2, ".png")),
-#        device = "png", width = 16, height = 6, units = "in", dpi = 600)
-# 
+ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 2, ".png")),
+       device = "png", width = 16, height = 6, units = "in", dpi = 600)
+
 # ggsave(file.path("figures", paste0("SupplementalMaterial", NVars + 2, ".tiff")),
 #        device = "tiff", width = 16, height = 6, units = "in", dpi = 600,
 #        compression = "lzw")
@@ -1281,7 +1339,7 @@ ggplot(plot_sf) +
 #        device = cairo_ps, width = 16, height = 6, units = "in",
 #        fallback_resolution = 600)
 
-#### Municipality-level correlation matrix under Model-Corr&IRE: Figure 3 ####
+#### Figure 3: Municipality-level correlation matrix under Model-Corr&IRE ####
 
 SurveyMapping.Sigma.Muni <- function(salwinbugs) {
   
@@ -1343,7 +1401,24 @@ Corr.quantileU.orden <- Corr.quantileU.orden[orden, orden]
 
 ### Adding significances ###
 
-# add on line 446 +0.35 y +0.15
+# Correlations whose 95% posterior interval excludes zero are marked with
+# an asterisk using the "label_sig" option in corrplot.
+#
+# To match the exact graphical layout used in the published figure, the
+# significance asterisks were repositioned to the upper-right corner of the
+# corresponding cells. This was done by temporarily editing corrplot() using
+# trace(corrplot, edit = TRUE) and modifying the placement of the significance
+# symbols in the internal place_points() function as follows:
+#
+# text(pos.pNew[, 1][sig.locs] + 0.35,
+#      pos.pNew[, 2][sig.locs] + 0.15,
+#      labels = point, col = pch.col, cex = pch.cex, lwd = 2)
+#
+# Thus, the x- and y-coordinates of the significance symbols were shifted by
+# +0.35 and +0.15, respectively. This adjustment affects only the graphical
+# position of the asterisks and does not affect the estimated correlations,
+# posterior intervals, or which correlations are marked with an asterisk.
+#
 # trace(corrplot, edit = TRUE)
 
 Significance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden < 0), ncol = NVars, nrow = NVars, byrow = FALSE)
@@ -1351,8 +1426,8 @@ colnames(Significance) <- rownames(Significance) <- colnames(Corr.mean.orden)
 Significance <- (Significance - 1) * (-1)
 for (Var in 1:NVars) { Significance[Var, Var] <- 1 }
 
-# png(file.path("figures", "BeltranSanchez3.png"),
-#     width = 9, height = 9, units = "in", res = 600)
+png(file.path("figures", "BeltranSanchez3.png"),
+    width = 9, height = 9, units = "in", res = 600)
 
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
@@ -1369,7 +1444,7 @@ corrplot(as.matrix(Corr.mean.orden),
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 
-# dev.off()
+dev.off()
 
 # tiff(file.path("figures", "BeltranSanchez3.tiff"),
 #      width = 9, height = 9, units = "in", res = 600, compression = "lzw")
@@ -1412,7 +1487,7 @@ corrplot(as.matrix(Corr.mean.orden),
 # 
 # dev.off()
 
-#### Individual-level correlation matrix under Model-Corr&IRE: Figure 4 ####
+#### Figure 4: Individual-level correlation matrix under Model-Corr&IRE ####
 
 SurveyMapping.Sigma.Resp <- function(salwinbugs) {
   
@@ -1474,7 +1549,24 @@ Corr.quantileU.orden <- Corr.quantileU.orden[orden, orden]
 
 ### Adding significances ###
 
-# add on line 446 +0.35 y +0.15
+# Correlations whose 95% posterior interval excludes zero are marked with
+# an asterisk using the "label_sig" option in corrplot.
+#
+# To match the exact graphical layout used in the published figure, the
+# significance asterisks were repositioned to the upper-right corner of the
+# corresponding cells. This was done by temporarily editing corrplot() using
+# trace(corrplot, edit = TRUE) and modifying the placement of the significance
+# symbols in the internal place_points() function as follows:
+#
+# text(pos.pNew[, 1][sig.locs] + 0.35,
+#      pos.pNew[, 2][sig.locs] + 0.15,
+#      labels = point, col = pch.col, cex = pch.cex, lwd = 2)
+#
+# Thus, the x- and y-coordinates of the significance symbols were shifted by
+# +0.35 and +0.15, respectively. This adjustment affects only the graphical
+# position of the asterisks and does not affect the estimated correlations,
+# posterior intervals, or which correlations are marked with an asterisk.
+#
 # trace(corrplot, edit = TRUE)
 
 Significance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden < 0), ncol = NVars, nrow = NVars, byrow = FALSE)
@@ -1482,8 +1574,8 @@ colnames(Significance) <- rownames(Significance) <- colnames(Corr.mean.orden)
 Significance <- (Significance - 1) * (-1)
 for (Var in 1:NVars) { Significance[Var, Var] <- 1 }
 
-# png(file.path("figures", "BeltranSanchez4.png"),
-#     width = 9, height = 9, units = "in", res = 600)
+png(file.path("figures", "BeltranSanchez4.png"),
+    width = 9, height = 9, units = "in", res = 600)
 
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
@@ -1500,7 +1592,7 @@ corrplot(as.matrix(Corr.mean.orden),
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 
-# dev.off()
+dev.off()
 
 # tiff(file.path("figures", "BeltranSanchez4.tiff"),
 #      width = 9, height = 9, units = "in", res = 600, compression = "lzw")
@@ -1543,7 +1635,7 @@ corrplot(as.matrix(Corr.mean.orden),
 # 
 # dev.off()
 
-#### Municipality-level correlation matrix under Model-Corr: Figure S15 ####
+#### Figure S15: Municipality-level correlation matrix under Model-Corr ####
 
 SurveyMapping.Sigma.Muni <- function(salwinbugs) {
   
@@ -1606,7 +1698,24 @@ Corr.quantileU.orden <- Corr.quantileU.orden[orden, orden]
 
 ### Adding significances ###
 
-# add on line 446 +0.35 y +0.15
+# Correlations whose 95% posterior interval excludes zero are marked with
+# an asterisk using the "label_sig" option in corrplot.
+#
+# To match the exact graphical layout used in the published figure, the
+# significance asterisks were repositioned to the upper-right corner of the
+# corresponding cells. This was done by temporarily editing corrplot() using
+# trace(corrplot, edit = TRUE) and modifying the placement of the significance
+# symbols in the internal place_points() function as follows:
+#
+# text(pos.pNew[, 1][sig.locs] + 0.35,
+#      pos.pNew[, 2][sig.locs] + 0.15,
+#      labels = point, col = pch.col, cex = pch.cex, lwd = 2)
+#
+# Thus, the x- and y-coordinates of the significance symbols were shifted by
+# +0.35 and +0.15, respectively. This adjustment affects only the graphical
+# position of the asterisks and does not affect the estimated correlations,
+# posterior intervals, or which correlations are marked with an asterisk.
+#
 # trace(corrplot, edit = TRUE)
 
 Significance <- matrix(as.numeric(Corr.quantileL.orden > 0 | Corr.quantileU.orden < 0), ncol = NVars, nrow = NVars, byrow = FALSE)
@@ -1614,8 +1723,8 @@ colnames(Significance) <- rownames(Significance) <- colnames(Corr.mean.orden)
 Significance <- (Significance - 1) * (-1)
 for (Var in 1:NVars) { Significance[Var, Var] <- 1 }
 
-# png(file.path("figures", paste0("SupplementalMaterial", NVars + 3, ".png")),
-#     width = 9, height = 9, units = "in", res = 600)
+png(file.path("figures", paste0("SupplementalMaterial", NVars + 3, ".png")),
+    width = 9, height = 9, units = "in", res = 600)
 
 # First: ellipses in lower triangular
 corrplot(as.matrix(Corr.mean.orden),
@@ -1632,7 +1741,7 @@ corrplot(as.matrix(Corr.mean.orden),
          plotCI = "rect", lowCI = as.matrix(Corr.quantileL.orden), 
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 
-# dev.off()
+dev.off()
 
 # tiff(file.path("figures", paste0("SupplementalMaterial", NVars + 3, ".tiff")),
 #      width = 9, height = 9, units = "in", res = 600, compression = "lzw")
@@ -1675,7 +1784,7 @@ corrplot(as.matrix(Corr.mean.orden),
 # 
 # dev.off()
 
-#### Principal component analysis of the spatial effects: Figure 5 ####
+#### Figure 5: Principal component analysis of the spatial effects ####
 
 salwinbugs <- salwinbugs3
 thetasim <- salwinbugs$sims.list$theta
@@ -1733,16 +1842,16 @@ p2 <- ggplot(carto_muni_sf) +
         legend.spacing.y = unit(0.08, "cm"))
 p1 + p2
 
-# ggsave(file.path("figures", "BeltranSanchez5.png"), device = "png",
-#        width = 10, height = 7, units = "in", dpi = 600)
-# 
+ggsave(file.path("figures", "BeltranSanchez5.png"), device = "png",
+       width = 10, height = 7, units = "in", dpi = 600)
+
 # ggsave(file.path("figures", "BeltranSanchez5.tiff"), device = "tiff",
 #        width = 10, height = 7, units = "in", dpi = 600, compression = "lzw")
 # 
 # ggsave(file.path("figures", "BeltranSanchez5.eps"), device = cairo_ps,
 #        width = 10, height = 7, units = "in", fallback_resolution = 600)
 
-#### Cut points by sex and age group: Figures S1–S12 ####
+#### Figures S1–S12: Cut points by sex and age group ####
 
 round(salwinbugs3$summary, 4)[startsWith(labels(salwinbugs3$summary)[[1]], "kappa"), ]
 kappamean <- apply(salwinbugs3$sims.list$kappa, 2:5, mean)
@@ -1782,10 +1891,10 @@ for (Var in 1:NVars) {
                      legend = "bottom")
   print(kappa)
   
-  # ggsave(file.path("figures", paste0("SupplementalMaterial", Var, ".png")),
-  #        plot = kappa, device = "png", width = 12, height = 6.5,
-  #        units = "in", dpi = 600)
-  # 
+  ggsave(file.path("figures", paste0("SupplementalMaterial", Var, ".png")),
+         plot = kappa, device = "png", width = 12, height = 6.5,
+         units = "in", dpi = 600)
+
   # ggsave(file.path("figures", paste0("SupplementalMaterial", Var, ".tiff")),
   #        plot = kappa, device = "tiff", width = 12, height = 6.5,
   #        units = "in", dpi = 600, compression = "lzw")
@@ -1795,7 +1904,7 @@ for (Var in 1:NVars) {
   #        units = "in", fallback_resolution = 600)
 }
 
-#### Model assessment: Table 2 ####
+#### Model assessment ####
 
 ### Model-Indep ###
 
@@ -1968,6 +2077,13 @@ SurveyMapping.Validation <- function(prlevels, Muni) {
 # Six municipalities with the largest population in the Region of Valencia
 Munis <- order(apply(sample, 1, sum), decreasing = TRUE)[1:6]
 
+# The following code computes the model assessment objects used to produce
+# Table 2 and Tables S1-S12. By default, precomputed model assessment objects
+# are loaded below.
+#
+# To recompute these model assessment objects, uncomment the corresponding
+# validation loops and saveRDS() commands.
+
 # validation1 <- list()
 # for (Muni in 1:length(Munis)) {
 #   set.seed(9747783)
@@ -1992,19 +2108,113 @@ Munis <- order(apply(sample, 1, sum), decreasing = TRUE)[1:6]
 
 # saveRDS(validation3, file = file.path("results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
 
+# The precomputed model assessment objects are loaded by default. If the
+# computations above have been performed from scratch and the resulting
+# objects have been saved using the saveRDS() commands, these readRDS()
+# calls will simply load the newly generated objects.
+
 validation1 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-indep-assessment.rds"))
 validation2 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-assessment.rds"))
 validation3 <- readRDS(file = file.path("results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
 
-# Item 5
-Var <- 5
-# Valencia
-Muni <- 1
-# Results
-validation1[[Muni]]$mean[Var, ]; validation1[[Muni]]$PI$lower[Var, ]; validation1[[Muni]]$PI$upper[Var, ]
-validation2[[Muni]]$mean[Var, ]; validation2[[Muni]]$PI$lower[Var, ]; validation2[[Muni]]$PI$upper[Var, ]
-validation3[[Muni]]$mean[Var, ]; validation3[[Muni]]$PI$lower[Var, ]; validation3[[Muni]]$PI$upper[Var, ]
-validation3[[Muni]]$real[Var, ]
+### Functions to construct the model assessment tables ###
+
+# Municipalities in the order used in the model assessment objects
+table_municipality <- as.character(carto_muni$NOMBRE_MUNI[Munis])
+table_municipality <- c("Valencia", "Elche", "Alicante",
+                        "Castellón de la Plana", "Orihuela", "Torrevieja")
+
+# Function to format posterior mean and 95% prediction interval
+format_prediction <- function(validation, Muni, Var) {
+  
+  mean <- validation[[Muni]]$mean[Var, ]
+  lower <- validation[[Muni]]$PI$lower[Var, ]
+  upper <- validation[[Muni]]$PI$upper[Var, ]
+  
+  sprintf("%.2f (%.2f–%.2f)", mean, lower, upper)
+}
+
+# Function to construct a model assessment table for a given item
+construct_assessment_table <- function(Var) {
+  
+  TableVar <- do.call(rbind, lapply(seq_along(table_municipality), function(Muni) {
+    
+    indep <- format_prediction(validation1, Muni, Var)
+    corr <- format_prediction(validation2, Muni, Var)
+    corrire <- format_prediction(validation3, Muni, Var)
+    observed <- sprintf("%.2f", validation3[[Muni]]$real[Var, ])
+    
+    data.frame(Municipality = rep(table_municipality[Muni], 4),
+               Model = c("Indep", "Corr", "Corr&IRE", "Observed"),
+               "1" = c(indep[1], corr[1], corrire[1], observed[1]),
+               "2" = c(indep[2], corr[2], corrire[2], observed[2]),
+               "3" = c(indep[3], corr[3], corrire[3], observed[3]),
+               "4" = c(indep[4], corr[4], corrire[4], observed[4]),
+               check.names = FALSE)
+  })
+  )
+  
+  rownames(TableVar) <- NULL
+  TableVar
+}
+
+#### Manuscript and supplementary tables ####
+
+# Each section below is explicitly labeled with the corresponding table number
+# in the manuscript or Supplemental Material.
+#
+# The tables are displayed when the code is run and are exported in CSV format
+# to the "tables" folder.
+
+#### Table 2: Model assessment ####
+
+Table2 <- construct_assessment_table(Var = 5)
+
+old_width <- getOption("width")
+options(width = 200)
+print(Table2, row.names = FALSE, right = FALSE)
+options(width = old_width)
+
+write.csv(Table2, file = file.path("tables", "Table2.csv"), row.names = FALSE, fileEncoding = "UTF-8")
+
+# To read the exported table:
+Table2 <- read.csv(file.path("tables", "Table2.csv"), check.names = FALSE, fileEncoding = "UTF-8")
+
+old_width <- getOption("width")
+options(width = 200)
+print(Table2, row.names = FALSE, right = FALSE)
+options(width = old_width)
+
+#### Tables S1-S12: Model assessment ####
+
+old_width <- getOption("width")
+options(width = 200)
+
+for (Var in 1:NVars) {
+  
+  TableVar <- construct_assessment_table(Var)
+  
+  cat("\nTable S", Var, " - Item ", Var, "\n", sep = "")
+  print(TableVar, row.names = FALSE, right = FALSE)
+  
+  write.csv(TableVar, file = file.path("tables", paste0("TableS", Var, ".csv")),
+            row.names = FALSE, fileEncoding = "UTF-8")
+}
+
+options(width = old_width)
+
+# To read the exported tables:
+for (Var in 1:NVars) {
+  TableVar <- read.csv(file.path("tables", paste0("TableS", Var, ".csv")),
+                       check.names = FALSE, fileEncoding = "UTF-8")
+  
+  cat("\nTable S", Var, "\n", sep = "")
+  
+  old_width <- getOption("width")
+  options(width = 200)
+  print(TableVar, row.names = FALSE, right = FALSE)
+  options(width = old_width)
+}
 
 #### WAIC computation ####
 
