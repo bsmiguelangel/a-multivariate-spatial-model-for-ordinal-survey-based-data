@@ -2158,12 +2158,17 @@ print(Table2, row.names = FALSE, right = FALSE)
 options(width = old_width)
 ```
 
-```{r, echo=FALSE, size='scriptsize'}
+\begingroup
+\scriptsize
+
+```{r, echo=FALSE}
 old_width <- getOption("width")
 options(width = 200)
 print(Table2, row.names = FALSE, right = FALSE)
 options(width = old_width)
 ```
+
+\endgroup
 
 # Tables S1-S12: Model assessment
 
@@ -2182,7 +2187,10 @@ for (Var in 1:NVars) {
 options(width = old_width)
 ```
 
-```{r, echo=FALSE, size='scriptsize'}
+\begingroup
+\scriptsize
+
+```{r, echo=FALSE}
 old_width <- getOption("width")
 options(width = 200)
 
@@ -2196,6 +2204,8 @@ for (Var in 1:NVars) {
 
 options(width = old_width)
 ```
+
+\endgroup
 
 # WAIC computation
 
