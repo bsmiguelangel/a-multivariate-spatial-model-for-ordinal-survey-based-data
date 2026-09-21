@@ -15,6 +15,16 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Document purpose
+
+This R Markdown file provides a formatted version of the analysis performed using
+the original survey data. It contains the code used to obtain the analyses,
+tables, and figures reported in the manuscript.
+
+Running this file requires access to the original survey data file
+ESCV2022_UV_Matem.sav. Precomputed posterior samples are loaded to avoid
+repeating the computationally intensive MCMC fitting step.
+
 # Required packages
 
 ```{r}
@@ -1284,7 +1294,7 @@ NimToWin <- function(salnimble) {
 salwinbugs3 <- NimToWin(salnimble = salnimble3)
 ```
 
-# Posterior means of the spatial effects: Figures 1 and S13
+# Figure 1: Posterior means of the spatial effects
 
 ```{r}
 # Cartography of the Region of Valencia
@@ -1348,6 +1358,8 @@ ggplot(plot_sf) +
         legend.spacing.y  = unit(0.08, "cm"))
 ```
 
+# Figure S13: Posterior means of the spatial effects
+
 ```{r}
 # Cartography of the Region of Valencia
 load(file.path("..", "data", "CartoCV.Rdata"))
@@ -1410,7 +1422,7 @@ ggplot(plot_sf) +
         legend.spacing.y  = unit(0.08, "cm"))
 ```
 
-# Posterior probabilities of the spatial effects: Figures 2 and S14
+# Figure 2: Posterior probabilities of the spatial effects
 
 ```{r}
 # Cartography of the Region of Valencia
@@ -1470,6 +1482,8 @@ ggplot(plot_sf) +
         legend.text = element_text(size = 9), legend.position = "right")
 ```
 
+# Figure S14: Posterior probabilities of the spatial effects
+
 ```{r}
 # Cartography of the Region of Valencia
 load(file.path("..", "data", "CartoCV.Rdata"))
@@ -1528,7 +1542,7 @@ ggplot(plot_sf) +
         legend.text = element_text(size = 9), legend.position = "right")
 ```
 
-# Municipality-level correlation matrix under Model-Corr&IRE: Figure 3 
+# Figure 3: Municipality-level correlation matrix under Model-Corr&IRE 
 
 ```{r}
 SurveyMapping.Sigma.Muni <- function(salwinbugs) {
@@ -1612,7 +1626,7 @@ corrplot(as.matrix(Corr.mean.orden),
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 ```
 
-# Individual-level correlation matrix under Model-Corr&IRE: Figure 4
+# Figure 4: Individual-level correlation matrix under Model-Corr&IRE
 
 ```{r}
 SurveyMapping.Sigma.Resp <- function(salwinbugs) {
@@ -1696,7 +1710,7 @@ corrplot(as.matrix(Corr.mean.orden),
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 ```
 
-# Municipality-level correlation matrix under Model-Corr: Figure S15
+# Figure S15: Municipality-level correlation matrix under Model-Corr
 
 ```{r}
 SurveyMapping.Sigma.Muni <- function(salwinbugs) {
@@ -1781,7 +1795,7 @@ corrplot(as.matrix(Corr.mean.orden),
          uppCI = as.matrix(Corr.quantileU.orden), rect.col = "navy", tl.pos = "n")
 ```
 
-# Principal component analysis of the spatial effects: Figure 5
+# Figure 5: Principal component analysis of the spatial effects
 
 ```{r}
 salwinbugs <- salwinbugs3
@@ -1844,7 +1858,7 @@ p2 <- ggplot(carto_muni_sf) +
 p1 + p2
 ```
 
-# Cut points by sex and age group: Figures S1–S12
+# Figures S1–S12: Cut points by sex and age group
 
 ```{r}
 round(salwinbugs3$summary, 4)[startsWith(labels(salwinbugs3$summary)[[1]], "kappa"), ][1:10, ]
@@ -1889,7 +1903,7 @@ for (Var in 1:NVars) {
 }
 ```
 
-# Model assessment: Table 2
+# Model assessment
 
 ```{r}
 ### Model-Indep ###
@@ -2091,20 +2105,101 @@ validation1 <- readRDS(file = file.path("..", "results", "multi-2022-nimble-MH-i
 validation2 <- readRDS(file = file.path("..", "results", "multi-2022-nimble-MH-corr-assessment.rds"))
 validation3 <- readRDS(file = file.path("..", "results", "multi-2022-nimble-MH-corr-ire-assessment.rds"))
 
-# Item 5
-Var <- 5
-# Valencia
-Muni <- 1
-# Results
-validation1[[Muni]]$mean[Var, ]; validation1[[Muni]]$PI$lower[Var, ]; validation1[[Muni]]$PI$upper[Var, ]
-validation2[[Muni]]$mean[Var, ]; validation2[[Muni]]$PI$lower[Var, ]; validation2[[Muni]]$PI$upper[Var, ]
-validation3[[Muni]]$mean[Var, ]; validation3[[Muni]]$PI$lower[Var, ]; validation3[[Muni]]$PI$upper[Var, ]
-validation3[[Muni]]$real[Var, ]
+### Functions to construct the model assessment tables ###
+
+# Municipalities in the order used in the model assessment objects
+table_municipality <- as.character(carto_muni$NOMBRE_MUNI[Munis])
+table_municipality <- c("Valencia", "Elche", "Alicante",
+                        "Castellón de la Plana", "Orihuela", "Torrevieja")
+
+# Function to format posterior mean and 95% prediction interval
+format_prediction <- function(validation, Muni, Var) {
+  
+  mean <- validation[[Muni]]$mean[Var, ]
+  lower <- validation[[Muni]]$PI$lower[Var, ]
+  upper <- validation[[Muni]]$PI$upper[Var, ]
+  
+  sprintf("%.2f (%.2f–%.2f)", mean, lower, upper)
+}
+
+# Function to construct a model assessment table for a given item
+construct_assessment_table <- function(Var) {
+  
+  TableVar <- do.call(rbind, lapply(seq_along(table_municipality), function(Muni) {
+    
+    indep <- format_prediction(validation1, Muni, Var)
+    corr <- format_prediction(validation2, Muni, Var)
+    corrire <- format_prediction(validation3, Muni, Var)
+    observed <- sprintf("%.2f", validation3[[Muni]]$real[Var, ])
+    
+    data.frame(Municipality = rep(table_municipality[Muni], 4),
+               Model = c("Indep", "Corr", "Corr&IRE", "Observed"),
+               "1" = c(indep[1], corr[1], corrire[1], observed[1]),
+               "2" = c(indep[2], corr[2], corrire[2], observed[2]),
+               "3" = c(indep[3], corr[3], corrire[3], observed[3]),
+               "4" = c(indep[4], corr[4], corrire[4], observed[4]),
+               check.names = FALSE)
+  })
+  )
+  
+  rownames(TableVar) <- NULL
+  TableVar
+}
+```
+
+# Table 2: Model assessment
+
+```{r, results='hide'}
+Table2 <- construct_assessment_table(Var = 5)
+
+old_width <- getOption("width")
+options(width = 200)
+print(Table2, row.names = FALSE, right = FALSE)
+options(width = old_width)
+```
+
+```{r, echo=FALSE, size='scriptsize'}
+old_width <- getOption("width")
+options(width = 200)
+print(Table2, row.names = FALSE, right = FALSE)
+options(width = old_width)
+```
+
+# Tables S1-S12: Model assessment
+
+```{r, results='hide'}
+old_width <- getOption("width")
+options(width = 200)
+
+for (Var in 1:NVars) {
+  
+  TableVar <- construct_assessment_table(Var)
+  
+  cat("\nTable S", Var, " - Item ", Var, "\n", sep = "")
+  print(TableVar, row.names = FALSE, right = FALSE)
+}
+
+options(width = old_width)
+```
+
+```{r, echo=FALSE, size='scriptsize'}
+old_width <- getOption("width")
+options(width = 200)
+
+for (Var in 1:NVars) {
+  
+  TableVar <- construct_assessment_table(Var)
+  
+  cat("\nTable S", Var, " - Item ", Var, "\n", sep = "")
+  print(TableVar, row.names = FALSE, right = FALSE)
+}
+
+options(width = old_width)
 ```
 
 # WAIC computation
 
-```{r}
+```{r, results='hide', message=FALSE, warning=FALSE}
 ### Model-Indep ###
 
 source(file = file.path("..", "models", "model-indep.R"))
@@ -2129,7 +2224,6 @@ modelWAIC <- nimbleModel(code = modelCode,
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
 samples <- do.call(rbind, salnimble1)           # single matrix of samples
 waic1 <- calculateWAIC(samples, modelWAIC)
-waic1
 
 ### Model-Corr ###
 
@@ -2156,7 +2250,6 @@ modelWAIC <- nimbleModel(code = modelCode,
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
 samples <- do.call(rbind, salnimble2)           # single matrix of samples
 waic2 <- calculateWAIC(samples, modelWAIC)
-waic2
 
 ### Model-Corr&IRE ###
 
@@ -2186,6 +2279,11 @@ modelWAIC <- nimbleModel(code = modelCode,
 CmodelWAIC <- compileNimble(modelWAIC)         # calculateWAIC needs compiled model to exist
 samples <- do.call(rbind, salnimble3)           # single matrix of samples
 waic3 <- calculateWAIC(samples, modelWAIC)
+```
+
+```{r}
+waic1
+waic2
 waic3
 ```
 
@@ -2300,4 +2398,3 @@ MCMCtrace(object = salnimble3,
           ISB = FALSE,
           params = rownames(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), ])[(salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 6] > 1.03) | (salwinbugs3$summary[startsWith(labels(salwinbugs3$summary)[[1]], test), 7] < 200)])
 ```
-
